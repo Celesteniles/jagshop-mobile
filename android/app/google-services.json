@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "862589425531",
+    "project_id": "jag-shop",
+    "storage_bucket": "jag-shop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862589425531:android:1c8fc8040b9fdc473d0fde",
+        "android_client_info": {
+          "package_name": "com.celeste.jagshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862589425531-acg3mjtqgvmncijd4qo9iolkips738mu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.celeste.jagshop",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "862589425531-opmc3rkhan9ksie4hac7igg9u2p8jqkr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIFZTDfAEcQM793EQh_M8wFoekStx8Y7I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862589425531-opmc3rkhan9ksie4hac7igg9u2p8jqkr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "862589425531-26n02njbsqpujgobvccg5v6su0vp0jrk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.celeste.jagshop"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

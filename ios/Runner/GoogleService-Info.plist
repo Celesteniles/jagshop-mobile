@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>862589425531-26n02njbsqpujgobvccg5v6su0vp0jrk.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.862589425531-26n02njbsqpujgobvccg5v6su0vp0jrk</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>862589425531-acg3mjtqgvmncijd4qo9iolkips738mu.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBLSHRs_LMnTNeiET138gjFx_Oe8EAk6AI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>862589425531</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.celeste.jagshop</string>
+	<key>PROJECT_ID</key>
+	<string>jag-shop</string>
+	<key>STORAGE_BUCKET</key>
+	<string>jag-shop.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:862589425531:ios:a771c0652d8009aa3d0fde</string>
+</dict>
+</plist>
