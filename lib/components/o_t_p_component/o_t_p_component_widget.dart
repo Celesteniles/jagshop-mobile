@@ -3,6 +3,7 @@ import '/components/phone_verified/phone_verified_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,6 +47,8 @@ class _OTPComponentWidgetState extends State<OTPComponentWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -140,13 +143,16 @@ class _OTPComponentWidgetState extends State<OTPComponentWidget> {
                     'Vérification en cours ...',
                   );
                   _model.apiResultatPin =
-                      await APIJagShopGroup.verifyOTPCall.call();
+                      await APIJagShopGroup.verifyOTPCall.call(
+                    telephone: FFAppState().phone,
+                    digit: _model.pinCodeController!.text,
+                  );
 
                   _shouldSetState = true;
                   if ((_model.apiResultatPin?.succeeded ?? true)) {
                     _model.apiResultCheck =
                         await APIJagShopGroup.checkJagShopAccountCall.call(
-                      phone: widget!.phone,
+                      phone: FFAppState().phone,
                     );
 
                     _shouldSetState = true;
@@ -175,16 +181,14 @@ class _OTPComponentWidgetState extends State<OTPComponentWidget> {
                       context.pushNamed('RegisterPage');
                     }
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Erreur',
-                          style: TextStyle(
-                            color: FlutterFlowTheme.of(context).primaryText,
-                          ),
-                        ),
-                        duration: Duration(milliseconds: 4000),
-                        backgroundColor: FlutterFlowTheme.of(context).error,
+                    await actions.customToast(
+                      valueOrDefault<String>(
+                        functions.arrayToString(APIJagShopGroup.verifyOTPCall
+                            .msg(
+                              (_model.apiResultatPin?.jsonBody ?? ''),
+                            )
+                            ?.toList()),
+                        'Quelque chose ne s\'est pas bien passée.',
                       ),
                     );
                     if (_shouldSetState) setState(() {});

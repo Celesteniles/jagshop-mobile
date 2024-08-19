@@ -450,6 +450,15 @@ class CheckUserCall {
       alwaysAllowBody: false,
     );
   }
+
+  bool? status(dynamic response) => castToType<bool>(getJsonField(
+        response,
+        r'''$.status''',
+      ));
+  dynamic? user(dynamic response) => getJsonField(
+        response,
+        r'''$.user''',
+      );
 }
 
 class LoginCall {
@@ -512,6 +521,8 @@ class RegisterCall {
   Future<ApiCallResponse> call({
     String? phone = '',
     String? password = '',
+    String? name = '',
+    String? email = '',
     String? accessToken = '',
   }) async {
     final baseUrl = APIJagShopGroup.getBaseUrl(
@@ -530,6 +541,8 @@ class RegisterCall {
       params: {
         'phone': phone,
         'password': password,
+        'name': name,
+        'email': email,
       },
       bodyType: BodyType.MULTIPART,
       returnBody: true,
@@ -540,6 +553,28 @@ class RegisterCall {
       alwaysAllowBody: false,
     );
   }
+
+  bool? status(dynamic response) => castToType<bool>(getJsonField(
+        response,
+        r'''$.success''',
+      ));
+  List<String>? msg(dynamic response) => (getJsonField(
+        response,
+        r'''$.msg''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+  String? token(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.token''',
+      ));
+  dynamic? user(dynamic response) => getJsonField(
+        response,
+        r'''$.user''',
+      );
 }
 
 class GetProductsCall {

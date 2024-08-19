@@ -79,39 +79,34 @@ class _PhoneVerifiedPageWidgetState extends State<PhoneVerifiedPageWidget> {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Flexible(
-                  child: Padding(
-                    padding: EdgeInsets.all(15.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          FFLocalizations.of(context).getText(
-                            'w2pggfl3' /* Créer un compte */,
-                          ),
-                          style: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .override(
-                                fontFamily: 'DM Sans',
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                fontSize: 20.0,
-                                letterSpacing: 0.0,
-                                fontWeight: FontWeight.w800,
-                              ),
+                Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        FFLocalizations.of(context).getText(
+                          'w2pggfl3' /* Créer un compte */,
                         ),
-                        Text(
-                          FFLocalizations.of(context).getText(
-                            '3g697hry' /* Pour commencer à créer votre c... */,
-                          ),
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'DM Sans',
-                                    letterSpacing: 0.0,
-                                  ),
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'DM Sans',
+                              color: FlutterFlowTheme.of(context).primaryText,
+                              fontSize: 20.0,
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.w800,
+                            ),
+                      ),
+                      Text(
+                        FFLocalizations.of(context).getText(
+                          '3g697hry' /* Pour commencer à créer votre c... */,
                         ),
-                      ].divide(SizedBox(height: 10.0)),
-                    ),
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'DM Sans',
+                              letterSpacing: 0.0,
+                            ),
+                      ),
+                    ].divide(SizedBox(height: 10.0)),
                   ),
                 ),
                 Align(
@@ -260,9 +255,7 @@ class _PhoneVerifiedPageWidgetState extends State<PhoneVerifiedPageWidget> {
                                             padding: MediaQuery.viewInsetsOf(
                                                 context),
                                             child: Container(
-                                              height: MediaQuery.sizeOf(context)
-                                                      .height *
-                                                  0.4,
+                                              height: 300.0,
                                               child: OTPComponentWidget(
                                                 phone:
                                                     '242 ${_model.phoneTextController.text}',
@@ -336,27 +329,23 @@ class _PhoneVerifiedPageWidgetState extends State<PhoneVerifiedPageWidget> {
                     ),
                   ),
                 ),
-                Flexible(
-                  child: Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(15.0, 0.0, 15.0, 0.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          FFLocalizations.of(context).getText(
-                            'knbr9qh9' /* Vous recevrez des notification... */,
-                          ),
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'DM Sans',
-                                    fontSize: 12.0,
-                                    letterSpacing: 0.0,
-                                  ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(15.0, 0.0, 15.0, 0.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        FFLocalizations.of(context).getText(
+                          'knbr9qh9' /* Vous recevrez des notification... */,
                         ),
-                      ].divide(SizedBox(height: 10.0)),
-                    ),
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'DM Sans',
+                              fontSize: 12.0,
+                              letterSpacing: 0.0,
+                            ),
+                      ),
+                    ].divide(SizedBox(height: 10.0)),
                   ),
                 ),
               ].divide(SizedBox(height: 10.0)),

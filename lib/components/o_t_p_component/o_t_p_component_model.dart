@@ -3,6 +3,7 @@ import '/components/phone_verified/phone_verified_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'o_t_p_component_widget.dart' show OTPComponentWidget;
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flutter/material.dart';

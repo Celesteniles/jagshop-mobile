@@ -197,14 +197,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   },
   // profilePage
   {
-    'b4pdno87': {
-      'fr': '[Username]',
-      'en': '',
-    },
-    'bq05k0k2': {
-      'fr': '[Email_Address]',
-      'en': '',
-    },
     '0egdg6nb': {
       'fr': 'Passer au monde sombre',
       'en': 'Switch to Dark Mode',
@@ -224,6 +216,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'sa9vgy7r': {
       'fr': 'Mode de paiement',
       'en': 'Payment method',
+    },
+    'ujtrpbdv': {
+      'fr': 'Portefeuille',
+      'en': '',
     },
     'nneb119f': {
       'fr': 'Changer le mot de passe',
@@ -256,6 +252,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     '5zpds35d': {
       'fr': 'A propos de JAG Shop',
       'en': 'My Bookings',
+    },
+    'vk12vaeu': {
+      'fr': 'Déconnexion',
+      'en': '',
     },
     'ko6lzcie': {
       'fr': 'Profil',
@@ -467,10 +467,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     '5qmprxu9': {
       'fr': 'Rechercher',
       'en': 'To research',
-    },
-    '9h95xatc': {
-      'fr': 'Hello World',
-      'en': '',
     },
     'nh5emetf': {
       'fr': 'Partager',
@@ -918,6 +914,29 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'uy2i68a7': {
+      'fr': 'Home',
+      'en': '',
+    },
+  },
+  // AproposPage
+  {
+    '2r278yt0': {
+      'fr': 'Version 1.1.0',
+      'en': '',
+    },
+    'xmnimtc3': {
+      'fr': 'Dévelopée par',
+      'en': '',
+    },
+    'ywy11rav': {
+      'fr': 'NS Creative',
+      'en': '',
+    },
+    'q7hthevy': {
+      'fr': 'A propos',
+      'en': '',
+    },
+    'oi5gdrcv': {
       'fr': 'Home',
       'en': '',
     },

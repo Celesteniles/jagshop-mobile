@@ -116,7 +116,7 @@ class _PhoneVerifiedWidgetState extends State<PhoneVerifiedWidget> {
                             EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 1.0),
                         child: FFButtonWidget(
                           onPressed: () async {
-                            context.pushNamed('LoginPage');
+                            context.goNamed('LoginPage');
                           },
                           text: FFLocalizations.of(context).getText(
                             'kaqfpqga' /* Oui, Se connecter */,

@@ -1,7 +1,10 @@
+import '/auth/custom_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -99,7 +102,9 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
                             child: Image.asset(
-                              'assets/images/JAG_SHOP_PNG.png',
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? 'assets/images/JAG_SHOP_PNG_w.png'
+                                  : 'assets/images/JAG_SHOP_PNG.png',
                               width: double.infinity,
                               height: double.infinity,
                               fit: BoxFit.contain,
@@ -212,7 +217,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                       controller: _model.textController2,
                                       focusNode: _model.textFieldFocusNode,
                                       autofocus: true,
-                                      obscureText: false,
+                                      obscureText: !_model.passwordVisibility,
                                       decoration: InputDecoration(
                                         labelText:
                                             FFLocalizations.of(context).getText(
@@ -238,6 +243,22 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                         focusedBorder: InputBorder.none,
                                         errorBorder: InputBorder.none,
                                         focusedErrorBorder: InputBorder.none,
+                                        suffixIcon: InkWell(
+                                          onTap: () => setState(
+                                            () => _model.passwordVisibility =
+                                                !_model.passwordVisibility,
+                                          ),
+                                          focusNode:
+                                              FocusNode(skipTraversal: true),
+                                          child: Icon(
+                                            _model.passwordVisibility
+                                                ? Icons.visibility_outlined
+                                                : Icons.visibility_off_outlined,
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            size: 22.0,
+                                          ),
+                                        ),
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -262,8 +283,67 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 1.0),
                             child: FFButtonWidget(
-                              onPressed: () {
-                                print('Button pressed ...');
+                              onPressed: () async {
+                                var _shouldSetState = false;
+                                Function() _navigate = () {};
+                                _model.apiResultkpg =
+                                    await APIJagShopGroup.loginCall.call(
+                                  phone: functions.phoneFormatter(
+                                      _model.emailTextController.text),
+                                  password: _model.textController2.text,
+                                );
+
+                                _shouldSetState = true;
+                                if ((_model.apiResultkpg?.succeeded ?? true)) {
+                                  FFAppState().userConnecte =
+                                      APIJagShopGroup.loginCall.user(
+                                    (_model.apiResultkpg?.jsonBody ?? ''),
+                                  );
+                                  FFAppState().accessToken =
+                                      APIJagShopGroup.loginCall.token(
+                                    (_model.apiResultkpg?.jsonBody ?? ''),
+                                  )!;
+                                  setState(() {});
+                                  GoRouter.of(context).prepareAuthEvent();
+                                  await authManager.signIn(
+                                    authenticationToken:
+                                        APIJagShopGroup.loginCall.token(
+                                      (_model.apiResultkpg?.jsonBody ?? ''),
+                                    ),
+                                  );
+                                  _navigate = () => context.goNamedAuth(
+                                      'Home', context.mounted);
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        valueOrDefault<String>(
+                                          functions.arrayToString(
+                                              APIJagShopGroup.loginCall
+                                                  .msg(
+                                                    (_model.apiResultkpg
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                  )
+                                                  ?.toList()),
+                                          'Quelque chose ne s\'est pas bien passée.',
+                                        ),
+                                        style: TextStyle(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                        ),
+                                      ),
+                                      duration: Duration(milliseconds: 4000),
+                                      backgroundColor:
+                                          FlutterFlowTheme.of(context).error,
+                                    ),
+                                  );
+                                  if (_shouldSetState) setState(() {});
+                                  return;
+                                }
+
+                                _navigate();
+                                if (_shouldSetState) setState(() {});
                               },
                               text: FFLocalizations.of(context).getText(
                                 'al36oz00' /* Se connecter */,

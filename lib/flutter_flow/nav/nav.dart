@@ -271,6 +271,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'PhoneVerifiedPage',
           path: '/phoneVerifiedPage',
           builder: (context, params) => PhoneVerifiedPageWidget(),
+        ),
+        FFRoute(
+          name: 'AproposPage',
+          path: '/aproposPage',
+          builder: (context, params) => AproposPageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

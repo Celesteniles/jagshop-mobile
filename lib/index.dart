@@ -9,7 +9,7 @@ export '/pages/subpage/edit_profile/edit_profile_widget.dart'
     show EditProfileWidget;
 export '/pages/subpage/change_password/change_password_widget.dart'
     show ChangePasswordWidget;
-export '/pages/auth_user/auth_user_widget.dart' show AuthUserWidget;
+export '/auth/auth_user/auth_user_widget.dart' show AuthUserWidget;
 export '/pages/home/home_widget.dart' show HomeWidget;
 export '/pages/favorite_page/favorite_page_widget.dart' show FavoritePageWidget;
 export '/pages/cart/cart_widget.dart' show CartWidget;
@@ -26,5 +26,7 @@ export '/auth/onboarding_copy/onboarding_copy_widget.dart'
     show OnboardingCopyWidget;
 export '/auth/login_page/login_page_widget.dart' show LoginPageWidget;
 export '/auth/register_page/register_page_widget.dart' show RegisterPageWidget;
-export '/pages/phone_verified_page/phone_verified_page_widget.dart'
+export '/auth/phone_verified_page/phone_verified_page_widget.dart'
     show PhoneVerifiedPageWidget;
+export '/pages/subpage/apropos_page/apropos_page_widget.dart'
+    show AproposPageWidget;

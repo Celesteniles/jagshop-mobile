@@ -1,7 +1,10 @@
+import '/auth/custom_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -48,6 +51,8 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -81,39 +86,34 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Flexible(
-                  child: Padding(
-                    padding: EdgeInsets.all(15.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          FFLocalizations.of(context).getText(
-                            'up99yq6k' /* Finalisons la création de votr... */,
-                          ),
-                          style: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .override(
-                                fontFamily: 'DM Sans',
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                fontSize: 20.0,
-                                letterSpacing: 0.0,
-                                fontWeight: FontWeight.w800,
-                              ),
+                Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        FFLocalizations.of(context).getText(
+                          'up99yq6k' /* Finalisons la création de votr... */,
                         ),
-                        Text(
-                          FFLocalizations.of(context).getText(
-                            '0x8vumjl' /* Entrez votre nom complet, e-ma... */,
-                          ),
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'DM Sans',
-                                    letterSpacing: 0.0,
-                                  ),
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'DM Sans',
+                              color: FlutterFlowTheme.of(context).primaryText,
+                              fontSize: 20.0,
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.w800,
+                            ),
+                      ),
+                      Text(
+                        FFLocalizations.of(context).getText(
+                          '0x8vumjl' /* Entrez votre nom complet, e-ma... */,
                         ),
-                      ].divide(SizedBox(height: 10.0)),
-                    ),
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'DM Sans',
+                              letterSpacing: 0.0,
+                            ),
+                      ),
+                    ].divide(SizedBox(height: 10.0)),
                   ),
                 ),
                 Align(
@@ -522,8 +522,103 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                             child: FFButtonWidget(
                               onPressed: (_model.accept == false)
                                   ? null
-                                  : () {
-                                      print('Button pressed ...');
+                                  : () async {
+                                      var _shouldSetState = false;
+                                      Function() _navigate = () {};
+                                      if (_model.passwordTextController.text ==
+                                          _model
+                                              .passwordConfirmationTextController
+                                              .text) {
+                                        _model.apiResult4t4 =
+                                            await APIJagShopGroup.registerCall
+                                                .call(
+                                          phone: FFAppState().phone,
+                                          password: _model
+                                              .passwordTextController.text,
+                                          name: _model.nameTextController.text,
+                                          email:
+                                              _model.emailTextController.text,
+                                        );
+
+                                        _shouldSetState = true;
+                                        if ((_model.apiResult4t4?.succeeded ??
+                                            true)) {
+                                          FFAppState().userConnecte =
+                                              APIJagShopGroup.registerCall.user(
+                                            (_model.apiResult4t4?.jsonBody ??
+                                                ''),
+                                          );
+                                          FFAppState().accessToken =
+                                              APIJagShopGroup.registerCall
+                                                  .token(
+                                            (_model.apiResult4t4?.jsonBody ??
+                                                ''),
+                                          )!;
+                                          setState(() {});
+                                          GoRouter.of(context)
+                                              .prepareAuthEvent();
+                                          await authManager.signIn(
+                                            authenticationToken: APIJagShopGroup
+                                                .registerCall
+                                                .token(
+                                              (_model.apiResult4t4?.jsonBody ??
+                                                  ''),
+                                            ),
+                                          );
+                                          _navigate = () => context.goNamedAuth(
+                                              'Home', context.mounted);
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                functions.arrayToString(
+                                                    APIJagShopGroup.registerCall
+                                                        .msg(
+                                                          (_model.apiResult4t4
+                                                                  ?.jsonBody ??
+                                                              ''),
+                                                        )
+                                                        ?.toList())!,
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                ),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                            ),
+                                          );
+                                        }
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Les mots de passe ne sont pas identiques.',
+                                              style: TextStyle(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                              ),
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 4000),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .error,
+                                          ),
+                                        );
+                                        if (_shouldSetState) setState(() {});
+                                        return;
+                                      }
+
+                                      _navigate();
+                                      if (_shouldSetState) setState(() {});
                                     },
                               text: FFLocalizations.of(context).getText(
                                 'h9y7q6s9' /* S'inscrire */,

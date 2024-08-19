@@ -1,14 +1,19 @@
+import '/auth/custom_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/components/product_component/product_component_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:badges/badges.dart' as badges;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'home_model.dart';
 export 'home_model.dart';
 
@@ -28,6 +33,42 @@ class _HomeWidgetState extends State<HomeWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => HomeModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      Function() _navigate = () {};
+      _model.apiResultrff = await APIJagShopGroup.checkUserCall.call(
+        accessToken: FFAppState().accessToken,
+      );
+
+      if ((_model.apiResultrff?.statusCode ?? 200) == 401) {
+        FFAppState().deletePhone();
+        FFAppState().phone = '';
+
+        FFAppState().deleteUserConnecte();
+        FFAppState().userConnecte = null;
+
+        FFAppState().deleteAccessToken();
+        FFAppState().accessToken = '';
+
+        FFAppState().update(() {});
+        await actions.customToast(
+          'Session expirée ou invalide.',
+        );
+        GoRouter.of(context).prepareAuthEvent();
+        await authManager.signOut();
+        GoRouter.of(context).clearRedirectLocation();
+
+        _navigate = () => context.goNamedAuth('Onboarding', context.mounted);
+      } else {
+        FFAppState().userConnecte = APIJagShopGroup.checkUserCall.user(
+          (_model.apiResultrff?.jsonBody ?? ''),
+        );
+        setState(() {});
+      }
+
+      _navigate();
+    });
   }
 
   @override
@@ -66,14 +107,18 @@ class _HomeWidgetState extends State<HomeWidget> {
                         shape: BoxShape.circle,
                       ),
                       child: Image.network(
-                        'https://picsum.photos/seed/239/600',
+                        getJsonField(
+                          FFAppState().userConnecte,
+                          r'''$.image_url''',
+                        ).toString(),
                         fit: BoxFit.cover,
                       ),
                     ),
                     Text(
-                      FFLocalizations.of(context).getText(
-                        '9h95xatc' /* Hello World */,
-                      ),
+                      getJsonField(
+                        FFAppState().userConnecte,
+                        r'''$.name''',
+                      ).toString(),
                       style: FlutterFlowTheme.of(context).titleLarge.override(
                             fontFamily: 'DM Sans',
                             letterSpacing: 0.0,
@@ -149,76 +194,122 @@ class _HomeWidgetState extends State<HomeWidget> {
                     ),
                     dense: false,
                   ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.mail_rounded,
-                      color: FlutterFlowTheme.of(context).primaryText,
-                    ),
-                    title: Text(
-                      FFLocalizations.of(context).getText(
-                        '58u7hxlp' /* Contact */,
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      await launchUrl(Uri(
+                        scheme: 'tel',
+                        path: '+242067230101',
+                      ));
+                    },
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.mail_rounded,
+                        color: FlutterFlowTheme.of(context).primaryText,
                       ),
-                      style: FlutterFlowTheme.of(context).titleLarge.override(
-                            fontFamily: 'DM Sans',
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                    subtitle: Text(
-                      FFLocalizations.of(context).getText(
-                        'lx4xssax' /* Nous contacter */,
+                      title: Text(
+                        FFLocalizations.of(context).getText(
+                          '58u7hxlp' /* Contact */,
+                        ),
+                        style: FlutterFlowTheme.of(context).titleLarge.override(
+                              fontFamily: 'DM Sans',
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
-                      style: FlutterFlowTheme.of(context).labelMedium.override(
-                            fontFamily: 'DM Sans',
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.w300,
-                          ),
+                      subtitle: Text(
+                        FFLocalizations.of(context).getText(
+                          'lx4xssax' /* Nous contacter */,
+                        ),
+                        style:
+                            FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'DM Sans',
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                      ),
+                      dense: false,
                     ),
-                    dense: false,
                   ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.logout_rounded,
-                      color: FlutterFlowTheme.of(context).primaryText,
-                    ),
-                    title: Text(
-                      FFLocalizations.of(context).getText(
-                        'yxgbi4pn' /* Se déconnecter */,
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      FFAppState().deletePhone();
+                      FFAppState().phone = '';
+
+                      FFAppState().deleteUserConnecte();
+                      FFAppState().userConnecte = null;
+
+                      FFAppState().deleteAccessToken();
+                      FFAppState().accessToken = '';
+
+                      FFAppState().update(() {});
+                      GoRouter.of(context).prepareAuthEvent();
+                      await authManager.signOut();
+                      GoRouter.of(context).clearRedirectLocation();
+
+                      context.goNamedAuth('Onboarding', context.mounted);
+                    },
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.logout_rounded,
+                        color: FlutterFlowTheme.of(context).primaryText,
                       ),
-                      style: FlutterFlowTheme.of(context).titleLarge.override(
-                            fontFamily: 'DM Sans',
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                    subtitle: Text(
-                      FFLocalizations.of(context).getText(
-                        '4g9lvli3' /* Quitter la session */,
+                      title: Text(
+                        FFLocalizations.of(context).getText(
+                          'yxgbi4pn' /* Se déconnecter */,
+                        ),
+                        style: FlutterFlowTheme.of(context).titleLarge.override(
+                              fontFamily: 'DM Sans',
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
-                      style: FlutterFlowTheme.of(context).labelMedium.override(
-                            fontFamily: 'DM Sans',
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.w300,
-                          ),
+                      subtitle: Text(
+                        FFLocalizations.of(context).getText(
+                          '4g9lvli3' /* Quitter la session */,
+                        ),
+                        style:
+                            FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: 'DM Sans',
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                      ),
+                      dense: false,
                     ),
-                    dense: false,
                   ),
-                  ListTile(
-                    leading: FaIcon(
-                      FontAwesomeIcons.question,
-                      color: FlutterFlowTheme.of(context).primaryText,
-                    ),
-                    title: Text(
-                      FFLocalizations.of(context).getText(
-                        'i43hr7zz' /* A propos */,
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      context.pushNamed('AproposPage');
+                    },
+                    child: ListTile(
+                      leading: FaIcon(
+                        FontAwesomeIcons.question,
+                        color: FlutterFlowTheme.of(context).primaryText,
                       ),
-                      style: FlutterFlowTheme.of(context).titleLarge.override(
-                            fontFamily: 'DM Sans',
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      title: Text(
+                        FFLocalizations.of(context).getText(
+                          'i43hr7zz' /* A propos */,
+                        ),
+                        style: FlutterFlowTheme.of(context).titleLarge.override(
+                              fontFamily: 'DM Sans',
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      dense: false,
                     ),
-                    dense: false,
                   ),
                 ].divide(SizedBox(height: 12.0)),
               ),
