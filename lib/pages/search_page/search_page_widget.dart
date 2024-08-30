@@ -449,114 +449,90 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Expanded(
-                                    child: InkWell(
-                                      splashColor: Colors.transparent,
-                                      focusColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      onTap: () async {
-                                        context.pushNamed(
-                                          'DetailsPage',
-                                          queryParameters: {
-                                            'product': serializeParam(
-                                              listViewProductsRecord,
-                                              ParamType.Document,
-                                            ),
-                                          }.withoutNulls,
-                                          extra: <String, dynamic>{
-                                            'product': listViewProductsRecord,
-                                          },
-                                        );
-                                      },
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            child: Image.network(
-                                              listViewProductsRecord
-                                                  .images.first,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.network(
+                                            listViewProductsRecord.images.first,
+                                            width: 100.0,
+                                            height: 100.0,
+                                            fit: BoxFit.cover,
+                                            errorBuilder:
+                                                (context, error, stackTrace) =>
+                                                    Image.asset(
+                                              'assets/images/error_image.png',
                                               width: 100.0,
                                               height: 100.0,
                                               fit: BoxFit.cover,
-                                              errorBuilder: (context, error,
-                                                      stackTrace) =>
-                                                  Image.asset(
-                                                'assets/images/error_image.png',
-                                                width: 100.0,
-                                                height: 100.0,
-                                                fit: BoxFit.cover,
-                                              ),
                                             ),
                                           ),
-                                          Expanded(
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.max,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Flexible(
-                                                      child: Text(
-                                                        listViewProductsRecord
-                                                            .name,
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'DM Sans',
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
-                                                      ),
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Flexible(
+                                                    child: Text(
+                                                      listViewProductsRecord
+                                                          .name,
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'DM Sans',
+                                                            letterSpacing: 0.0,
+                                                          ),
                                                     ),
-                                                  ],
-                                                ),
-                                                Text(
-                                                  formatNumber(
-                                                    listViewProductsRecord
-                                                        .salePrice,
-                                                    formatType:
-                                                        FormatType.decimal,
-                                                    decimalType:
-                                                        DecimalType.automatic,
-                                                    currency: 'XAF ',
                                                   ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .titleSmall
-                                                      .override(
-                                                        fontFamily: 'DM Sans',
-                                                        fontSize: 18.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                                ],
+                                              ),
+                                              Text(
+                                                formatNumber(
+                                                  listViewProductsRecord
+                                                      .salePrice,
+                                                  formatType:
+                                                      FormatType.decimal,
+                                                  decimalType:
+                                                      DecimalType.automatic,
+                                                  currency: 'XAF ',
                                                 ),
-                                                Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    'e75q1vmh' /* JAG Shop */,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'DM Sans',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmall
+                                                        .override(
+                                                          fontFamily: 'DM Sans',
+                                                          fontSize: 18.0,
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                              ),
+                                              Text(
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'e75q1vmh' /* JAG Shop */,
                                                 ),
-                                              ].divide(SizedBox(height: 5.0)),
-                                            ),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'DM Sans',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                              ),
+                                            ].divide(SizedBox(height: 5.0)),
                                           ),
-                                        ].divide(SizedBox(width: 12.0)),
-                                      ),
+                                        ),
+                                      ].divide(SizedBox(width: 12.0)),
                                     ),
                                   ),
                                   Column(

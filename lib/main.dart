@@ -10,7 +10,7 @@ import 'auth/custom_auth/auth_util.dart';
 import 'auth/custom_auth/custom_auth_user_provider.dart';
 
 import 'backend/firebase/firebase_config.dart';
-import 'flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -151,7 +151,7 @@ class _NavBarPageState extends State<NavBarPage> {
     final tabs = {
       'Home': HomeWidget(),
       'Cart': CartWidget(),
-      'chatMain': ChatMainWidget(),
+      'Categories': CategoriesWidget(),
       'FavoritePage': FavoritePageWidget(),
       'profilePage': ProfilePageWidget(),
     };
@@ -200,11 +200,11 @@ class _NavBarPageState extends State<NavBarPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.chat_bubble_outline,
+              Icons.category_outlined,
               size: 24.0,
             ),
             activeIcon: Icon(
-              Icons.chat_bubble_rounded,
+              Icons.category_rounded,
               size: 24.0,
             ),
             label: FFLocalizations.of(context).getText(

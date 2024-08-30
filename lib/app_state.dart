@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'flutter_flow/request_manager.dart';
 import '/backend/backend.dart';
 import 'backend/api_requests/api_manager.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -55,6 +56,17 @@ class FFAppState extends ChangeNotifier {
     await _safeInitAsync(() async {
       _accessToken =
           await secureStorage.getString('ff_accessToken') ?? _accessToken;
+    });
+    await _safeInitAsync(() async {
+      _carts = (await secureStorage.getStringList('ff_carts'))?.map((x) {
+            try {
+              return jsonDecode(x);
+            } catch (e) {
+              print("Can't decode persisted json. Error: $e.");
+              return {};
+            }
+          }).toList() ??
+          _carts;
     });
   }
 
@@ -158,6 +170,66 @@ class FFAppState extends ChangeNotifier {
   void deleteAccessToken() {
     secureStorage.delete(key: 'ff_accessToken');
   }
+
+  List<dynamic> _carts = [];
+  List<dynamic> get carts => _carts;
+  set carts(List<dynamic> value) {
+    _carts = value;
+    secureStorage.setStringList(
+        'ff_carts', value.map((x) => jsonEncode(x)).toList());
+  }
+
+  void deleteCarts() {
+    secureStorage.delete(key: 'ff_carts');
+  }
+
+  void addToCarts(dynamic value) {
+    carts.add(value);
+    secureStorage.setStringList(
+        'ff_carts', _carts.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeFromCarts(dynamic value) {
+    carts.remove(value);
+    secureStorage.setStringList(
+        'ff_carts', _carts.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeAtIndexFromCarts(int index) {
+    carts.removeAt(index);
+    secureStorage.setStringList(
+        'ff_carts', _carts.map((x) => jsonEncode(x)).toList());
+  }
+
+  void updateCartsAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    carts[index] = updateFn(_carts[index]);
+    secureStorage.setStringList(
+        'ff_carts', _carts.map((x) => jsonEncode(x)).toList());
+  }
+
+  void insertAtIndexInCarts(int index, dynamic value) {
+    carts.insert(index, value);
+    secureStorage.setStringList(
+        'ff_carts', _carts.map((x) => jsonEncode(x)).toList());
+  }
+
+  final _adsManager = FutureRequestManager<ApiCallResponse>();
+  Future<ApiCallResponse> ads({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<ApiCallResponse> Function() requestFn,
+  }) =>
+      _adsManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearAdsCache() => _adsManager.clear();
+  void clearAdsCacheKey(String? uniqueKey) =>
+      _adsManager.clearRequest(uniqueKey);
 }
 
 void _safeInit(Function() initializeField) {

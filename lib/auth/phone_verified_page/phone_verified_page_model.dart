@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 class PhoneVerifiedPageModel extends FlutterFlowModel<PhoneVerifiedPageWidget> {
   ///  State fields for stateful widgets in this page.
 
+  final unfocusNode = FocusNode();
   // State field(s) for phone widget.
   FocusNode? phoneFocusNode;
   TextEditingController? phoneTextController;

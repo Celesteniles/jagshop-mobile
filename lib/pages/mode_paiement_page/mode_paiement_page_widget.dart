@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/components/mode_img/mode_img_widget.dart';
 import '/components/payment_method/payment_method_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -37,6 +38,8 @@ class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -83,7 +86,13 @@ class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
                   padding: EdgeInsetsDirectional.fromSTEB(15.0, 0.0, 15.0, 0.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Icon(
+                        Icons.info_outline_rounded,
+                        color: FlutterFlowTheme.of(context).secondaryText,
+                        size: 24.0,
+                      ),
                       Flexible(
                         child: Text(
                           FFLocalizations.of(context).getText(
@@ -99,7 +108,7 @@ class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
                                   ),
                         ),
                       ),
-                    ],
+                    ].divide(SizedBox(width: 10.0)),
                   ),
                 ),
               ),
@@ -185,60 +194,100 @@ class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
                   ),
                 ),
               ),
-              ListView(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                children: [
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(15.0, 0.0, 15.0, 0.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        wrapWithModel(
-                          model: _model.modeImgModel,
-                          updateCallback: () => setState(() {}),
-                          child: ModeImgWidget(
-                            mode: 'nnn',
+              FutureBuilder<ApiCallResponse>(
+                future: APIJagShopGroup.getModesPaiementsCall.call(
+                  accessToken: FFAppState().accessToken,
+                ),
+                builder: (context, snapshot) {
+                  // Customize what your widget looks like when it's loading.
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: SizedBox(
+                        width: 50.0,
+                        height: 50.0,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            FlutterFlowTheme.of(context).primary,
                           ),
                         ),
-                        Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              FFLocalizations.of(context).getText(
-                                '855rkth6' /* Hello World */,
-                              ),
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'DM Sans',
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    fontSize: 16.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w800,
-                                  ),
+                      ),
+                    );
+                  }
+                  final listViewGetModesPaiementsResponse = snapshot.data!;
+
+                  return Builder(
+                    builder: (context) {
+                      final modeItem = APIJagShopGroup.getModesPaiementsCall
+                              .data(
+                                listViewGetModesPaiementsResponse.jsonBody,
+                              )
+                              ?.toList() ??
+                          [];
+
+                      return ListView.separated(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: modeItem.length,
+                        separatorBuilder: (_, __) => SizedBox(height: 12.0),
+                        itemBuilder: (context, modeItemIndex) {
+                          final modeItemItem = modeItem[modeItemIndex];
+                          return Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                15.0, 0.0, 15.0, 0.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                ModeImgWidget(
+                                  key: Key(
+                                      'Key0gb_${modeItemIndex}_of_${modeItem.length}'),
+                                  mode: getJsonField(
+                                    modeItemItem,
+                                    r'''$.type''',
+                                  ).toString(),
+                                ),
+                                Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      getJsonField(
+                                        modeItemItem,
+                                        r'''$.phone''',
+                                      ).toString(),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'DM Sans',
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                            fontSize: 16.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                    ),
+                                    Text(
+                                      getJsonField(
+                                        modeItemItem,
+                                        r'''$.type''',
+                                      ).toString(),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'DM Sans',
+                                            letterSpacing: 0.0,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                              ].divide(SizedBox(width: 5.0)),
                             ),
-                            Text(
-                              FFLocalizations.of(context).getText(
-                                'hrarhpwk' /* mathode */,
-                              ),
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: 'DM Sans',
-                                    letterSpacing: 0.0,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ].divide(SizedBox(width: 5.0)),
-                    ),
-                  ),
-                ].divide(SizedBox(height: 12.0)),
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
               ),
             ],
           ),

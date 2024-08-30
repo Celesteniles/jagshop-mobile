@@ -98,11 +98,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'chatMain',
-          path: '/chatMain',
+          name: 'Categories',
+          path: '/categories',
           builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'chatMain')
-              : ChatMainWidget(),
+              ? NavBarPage(initialPage: 'Categories')
+              : CategoriesWidget(),
         ),
         FFRoute(
           name: 'chatDetails',
@@ -188,13 +188,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'CategoryPage',
           path: '/categoryPage',
-          asyncParams: {
-            'category': getDoc(['categories'], CategoriesRecord.fromSnapshot),
-          },
           builder: (context, params) => CategoryPageWidget(
             category: params.getParam(
               'category',
-              ParamType.Document,
+              ParamType.JSON,
             ),
           ),
         ),
@@ -206,13 +203,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'DetailsPage',
           path: '/detailsPage',
-          asyncParams: {
-            'product': getDoc(['products'], ProductsRecord.fromSnapshot),
-          },
           builder: (context, params) => DetailsPageWidget(
             product: params.getParam(
               'product',
-              ParamType.Document,
+              ParamType.JSON,
             ),
           ),
         ),

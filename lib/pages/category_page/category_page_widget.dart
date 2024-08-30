@@ -1,11 +1,11 @@
-import '/backend/backend.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/components/product_card/product_card_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:async';
 import 'package:badges/badges.dart' as badges;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +18,7 @@ class CategoryPageWidget extends StatefulWidget {
     required this.category,
   });
 
-  final CategoriesRecord? category;
+  final dynamic category;
 
   @override
   State<CategoryPageWidget> createState() => _CategoryPageWidgetState();
@@ -70,7 +70,10 @@ class _CategoryPageWidgetState extends State<CategoryPageWidget> {
           ),
           title: Text(
             valueOrDefault<String>(
-              widget!.category?.name,
+              getJsonField(
+                widget!.category,
+                r'''$.name''',
+              )?.toString(),
               'Catégorie',
             ),
             style: FlutterFlowTheme.of(context).headlineSmall.override(
@@ -143,54 +146,79 @@ class _CategoryPageWidgetState extends State<CategoryPageWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
-                child: Builder(
-                  builder: (context) {
-                    final productVar =
-                        widget!.category?.products?.toList() ?? [];
+                child: FutureBuilder<ApiCallResponse>(
+                  future: (_model.apiRequestCompleter ??=
+                          Completer<ApiCallResponse>()
+                            ..complete(
+                                APIJagShopGroup.getProductsByCategoryCall.call(
+                              accessToken: FFAppState().accessToken,
+                              id: getJsonField(
+                                widget!.category,
+                                r'''$.id''',
+                              ).toString(),
+                            )))
+                      .future,
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 50.0,
+                          height: 50.0,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              FlutterFlowTheme.of(context).primary,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                    final gridViewGetProductsByCategoryResponse =
+                        snapshot.data!;
 
-                    return GridView.builder(
-                      padding: EdgeInsets.fromLTRB(
-                        0,
-                        5.0,
-                        0,
-                        5.0,
-                      ),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 0.0,
-                        mainAxisSpacing: 10.0,
-                        childAspectRatio: 1.0,
-                      ),
-                      scrollDirection: Axis.vertical,
-                      itemCount: productVar.length,
-                      itemBuilder: (context, productVarIndex) {
-                        final productVarItem = productVar[productVarIndex];
-                        return StreamBuilder<ProductsRecord>(
-                          stream: ProductsRecord.getDocument(productVarItem),
-                          builder: (context, snapshot) {
-                            // Customize what your widget looks like when it's loading.
-                            if (!snapshot.hasData) {
-                              return Center(
-                                child: SizedBox(
-                                  width: 50.0,
-                                  height: 50.0,
-                                  child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                      FlutterFlowTheme.of(context).primary,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
+                    return Builder(
+                      builder: (context) {
+                        final productVar =
+                            APIJagShopGroup.getProductsByCategoryCall
+                                    .data(
+                                      gridViewGetProductsByCategoryResponse
+                                          .jsonBody,
+                                    )
+                                    ?.toList() ??
+                                [];
 
-                            final productCardProductsRecord = snapshot.data!;
-
-                            return ProductCardWidget(
-                              key: Key(
-                                  'Keyhpa_${productVarIndex}_of_${productVar.length}'),
-                              product: productCardProductsRecord,
-                            );
+                        return RefreshIndicator(
+                          color: FlutterFlowTheme.of(context).primary,
+                          onRefresh: () async {
+                            setState(() => _model.apiRequestCompleter = null);
+                            await _model.waitForApiRequestCompleted();
                           },
+                          child: GridView.builder(
+                            padding: EdgeInsets.fromLTRB(
+                              0,
+                              5.0,
+                              0,
+                              5.0,
+                            ),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 0.0,
+                              mainAxisSpacing: 10.0,
+                              childAspectRatio: 1.0,
+                            ),
+                            scrollDirection: Axis.vertical,
+                            itemCount: productVar.length,
+                            itemBuilder: (context, productVarIndex) {
+                              final productVarItem =
+                                  productVar[productVarIndex];
+                              return ProductCardWidget(
+                                key: Key(
+                                    'Keyhpa_${productVarIndex}_of_${productVar.length}'),
+                                product: productVarItem,
+                              );
+                            },
+                          ),
                         );
                       },
                     );

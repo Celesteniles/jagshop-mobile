@@ -112,3 +112,24 @@ String phoneFormatter(String phoneNumber) {
 bool verifiedPhone(String phoneNumber) {
   return phoneNumber.length >= 9 && phoneNumber.length < 12;
 }
+
+bool isSameStrore(
+  List<dynamic> productList,
+  dynamic product,
+) {
+  if (productList.isEmpty) {
+    // Si la liste est vide, il n'y a aucun produit pour comparaison,
+    // donc on peut considérer qu'ils sont du même magasin.
+    return true;
+  }
+
+  String storeId = productList.first['store_id'].toString();
+  String newProductStoreId = product['store_id'].toString();
+
+  // Compare l'ID du magasin du nouveau produit avec celui du premier produit
+  return newProductStoreId == storeId;
+}
+
+double toDouble(String? amount) {
+  return double.parse(amount ?? "0");
+}

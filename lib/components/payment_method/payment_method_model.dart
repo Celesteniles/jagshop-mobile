@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -20,6 +21,8 @@ class PaymentMethodModel extends FlutterFlowModel<PaymentMethodWidget> {
   TextEditingController? phoneTextController;
   final phoneMask = MaskTextInputFormatter(mask: '## ### ####');
   String? Function(BuildContext, String?)? phoneTextControllerValidator;
+  // Stores action output result for [Backend Call - API (Add mode paiement)] action in Button widget.
+  ApiCallResponse? apiResult4j7;
 
   @override
   void initState(BuildContext context) {}

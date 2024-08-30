@@ -498,157 +498,316 @@ class _HomeWidgetState extends State<HomeWidget> {
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 10.0, 0.0, 0.0),
-                            child: Container(
-                              width: double.infinity,
-                              height: 180.0,
-                              child: CarouselSlider(
-                                items: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/930/600',
-                                      width: 300.0,
-                                      height: 200.0,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/805/600',
-                                      width: 300.0,
-                                      height: 200.0,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/592/600',
-                                      width: 300.0,
-                                      height: 200.0,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/573/600',
-                                      width: 300.0,
-                                      height: 200.0,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ],
-                                carouselController:
-                                    _model.carouselController ??=
-                                        CarouselController(),
-                                options: CarouselOptions(
-                                  initialPage: 1,
-                                  viewportFraction: 0.9,
-                                  disableCenter: true,
-                                  enlargeCenterPage: true,
-                                  enlargeFactor: 0.2,
-                                  enableInfiniteScroll: true,
-                                  scrollDirection: Axis.horizontal,
-                                  autoPlay: true,
-                                  autoPlayAnimationDuration:
-                                      Duration(milliseconds: 800),
-                                  autoPlayInterval:
-                                      Duration(milliseconds: (800 + 4000)),
-                                  autoPlayCurve: Curves.linear,
-                                  pauseAutoPlayInFiniteScroll: true,
-                                  onPageChanged: (index, _) =>
-                                      _model.carouselCurrentIndex = index,
+                            child: FutureBuilder<ApiCallResponse>(
+                              future: FFAppState().ads(
+                                requestFn: () =>
+                                    APIJagShopGroup.getADSCall.call(
+                                  accessToken: FFAppState().accessToken,
                                 ),
                               ),
+                              builder: (context, snapshot) {
+                                // Customize what your widget looks like when it's loading.
+                                if (!snapshot.hasData) {
+                                  return Center(
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 60.0, 0.0, 60.0),
+                                      child: SizedBox(
+                                        width: 50.0,
+                                        height: 50.0,
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
+                                final carouselGetADSResponse = snapshot.data!;
+
+                                return Builder(
+                                  builder: (context) {
+                                    final adVar = APIJagShopGroup.getADSCall
+                                            .data(
+                                              carouselGetADSResponse.jsonBody,
+                                            )
+                                            ?.toList() ??
+                                        [];
+
+                                    return Container(
+                                      width: double.infinity,
+                                      height: 180.0,
+                                      child: CarouselSlider.builder(
+                                        itemCount: adVar.length,
+                                        itemBuilder: (context, adVarIndex, _) {
+                                          final adVarItem = adVar[adVarIndex];
+                                          return InkWell(
+                                            splashColor: Colors.transparent,
+                                            focusColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () async {
+                                              await launchURL(getJsonField(
+                                                adVarItem,
+                                                r'''$.link_url''',
+                                              ).toString());
+                                            },
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child: Image.network(
+                                                getJsonField(
+                                                  adVarItem,
+                                                  r'''$.image_url''',
+                                                ).toString(),
+                                                width: 300.0,
+                                                height: 200.0,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        carouselController:
+                                            _model.carouselController ??=
+                                                CarouselController(),
+                                        options: CarouselOptions(
+                                          initialPage:
+                                              max(0, min(1, adVar.length - 1)),
+                                          viewportFraction: 0.9,
+                                          disableCenter: true,
+                                          enlargeCenterPage: true,
+                                          enlargeFactor: 0.2,
+                                          enableInfiniteScroll: true,
+                                          scrollDirection: Axis.horizontal,
+                                          autoPlay: true,
+                                          autoPlayAnimationDuration:
+                                              Duration(milliseconds: 800),
+                                          autoPlayInterval: Duration(
+                                              milliseconds: (800 + 4000)),
+                                          autoPlayCurve: Curves.linear,
+                                          pauseAutoPlayInFiniteScroll: true,
+                                          onPageChanged: (index, _) => _model
+                                              .carouselCurrentIndex = index,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
                             ),
                           ),
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 20.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          10.0, 0.0, 10.0, 0.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            FFLocalizations.of(context).getText(
-                                              'pvonrvpx' /* Vêtements */,
-                                            ),
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily: 'DM Sans',
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryText,
-                                                  fontSize: 22.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                          ),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(24.0),
-                                              border: Border.all(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryText,
-                                              ),
-                                            ),
-                                            child: Padding(
+                            child: FutureBuilder<ApiCallResponse>(
+                              future: _model.categories(
+                                requestFn: () => APIJagShopGroup
+                                    .getProductsCategoriesCall
+                                    .call(
+                                  accessToken: FFAppState().accessToken,
+                                ),
+                              ),
+                              builder: (context, snapshot) {
+                                // Customize what your widget looks like when it's loading.
+                                if (!snapshot.hasData) {
+                                  return Center(
+                                    child: SizedBox(
+                                      width: 50.0,
+                                      height: 50.0,
+                                      child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                          FlutterFlowTheme.of(context).primary,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
+                                final columnGetProductsCategoriesResponse =
+                                    snapshot.data!;
+
+                                return Builder(
+                                  builder: (context) {
+                                    final categoryVar = APIJagShopGroup
+                                            .getProductsCategoriesCall
+                                            .data(
+                                              columnGetProductsCategoriesResponse
+                                                  .jsonBody,
+                                            )
+                                            ?.toList() ??
+                                        [];
+
+                                    return Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children:
+                                          List.generate(categoryVar.length,
+                                              (categoryVarIndex) {
+                                        final categoryVarItem =
+                                            categoryVar[categoryVarIndex];
+                                        return Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       10.0, 0.0, 10.0, 0.0),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  Icon(
-                                                    Icons.arrow_forward_rounded,
-                                                    color: FlutterFlowTheme.of(
+                                                  Text(
+                                                    getJsonField(
+                                                      categoryVarItem,
+                                                      r'''$.name''',
+                                                    ).toString(),
+                                                    style: FlutterFlowTheme.of(
                                                             context)
-                                                        .secondaryText,
-                                                    size: 24.0,
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'DM Sans',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryText,
+                                                          fontSize: 22.0,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
                                                   ),
-                                                ].divide(SizedBox(width: 8.0)),
+                                                  InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      context.pushNamed(
+                                                        'CategoryPage',
+                                                        queryParameters: {
+                                                          'category':
+                                                              serializeParam(
+                                                            categoryVarItem,
+                                                            ParamType.JSON,
+                                                          ),
+                                                        }.withoutNulls,
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(24.0),
+                                                        border: Border.all(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryText,
+                                                        ),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    10.0,
+                                                                    0.0,
+                                                                    10.0,
+                                                                    0.0),
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .arrow_forward_rounded,
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .secondaryText,
+                                                              size: 24.0,
+                                                            ),
+                                                          ].divide(SizedBox(
+                                                              width: 8.0)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          wrapWithModel(
-                                            model: _model.productComponentModel,
-                                            updateCallback: () =>
-                                                setState(() {}),
-                                            child: ProductComponentWidget(),
-                                          ),
-                                        ]
-                                            .divide(SizedBox(width: 15.0))
-                                            .around(SizedBox(width: 15.0)),
-                                      ),
-                                    ),
-                                  ].divide(SizedBox(height: 10.0)),
-                                ),
-                              ].divide(SizedBox(height: 20.0)),
+                                            Builder(
+                                              builder: (context) {
+                                                final productVar = getJsonField(
+                                                  categoryVarItem,
+                                                  r'''$.products''',
+                                                ).toList();
+
+                                                return SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: List.generate(
+                                                            productVar.length,
+                                                            (productVarIndex) {
+                                                      final productVarItem =
+                                                          productVar[
+                                                              productVarIndex];
+                                                      return InkWell(
+                                                        splashColor:
+                                                            Colors.transparent,
+                                                        focusColor:
+                                                            Colors.transparent,
+                                                        hoverColor:
+                                                            Colors.transparent,
+                                                        highlightColor:
+                                                            Colors.transparent,
+                                                        onTap: () async {
+                                                          context.pushNamed(
+                                                            'DetailsPage',
+                                                            queryParameters: {
+                                                              'product':
+                                                                  serializeParam(
+                                                                productVarItem,
+                                                                ParamType.JSON,
+                                                              ),
+                                                            }.withoutNulls,
+                                                          );
+                                                        },
+                                                        child:
+                                                            ProductComponentWidget(
+                                                          key: Key(
+                                                              'Keyyim_${productVarIndex}_of_${productVar.length}'),
+                                                          productJson:
+                                                              productVarItem,
+                                                        ),
+                                                      );
+                                                    })
+                                                        .divide(SizedBox(
+                                                            width: 15.0))
+                                                        .around(SizedBox(
+                                                            width: 15.0)),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ].divide(SizedBox(height: 10.0)),
+                                        );
+                                      }).divide(SizedBox(height: 20.0)),
+                                    );
+                                  },
+                                );
+                              },
                             ),
                           ),
                         ].divide(SizedBox(height: 12.0)),

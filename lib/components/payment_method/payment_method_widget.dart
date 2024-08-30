@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -43,6 +44,8 @@ class _PaymentMethodWidgetState extends State<PaymentMethodWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
       child: Container(
@@ -201,7 +204,7 @@ class _PaymentMethodWidgetState extends State<PaymentMethodWidget> {
                                   borderRadius: BorderRadius.circular(100.0),
                                   hoverColor: Color(0xB2000000),
                                   hoverTextColor:
-                                      FlutterFlowTheme.of(context).primary,
+                                      FlutterFlowTheme.of(context).accent1,
                                 ),
                               ),
                             ),
@@ -320,8 +323,58 @@ class _PaymentMethodWidgetState extends State<PaymentMethodWidget> {
                 ),
               ),
               FFButtonWidget(
-                onPressed: () {
-                  print('Button pressed ...');
+                onPressed: () async {
+                  var _shouldSetState = false;
+                  _model.apiResult4j7 =
+                      await APIJagShopGroup.addModePaiementCall.call(
+                    phone: _model.phoneTextController.text,
+                    type: _model.method,
+                    accessToken: FFAppState().accessToken,
+                  );
+
+                  _shouldSetState = true;
+                  if ((_model.apiResult4j7?.succeeded ?? true)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          APIJagShopGroup.addModePaiementCall.message(
+                            (_model.apiResult4j7?.jsonBody ?? ''),
+                          )!,
+                          style: TextStyle(
+                            color: FlutterFlowTheme.of(context).primaryText,
+                          ),
+                        ),
+                        duration: Duration(milliseconds: 4000),
+                        backgroundColor: FlutterFlowTheme.of(context).success,
+                      ),
+                    );
+                    Navigator.pop(context);
+                    if (_shouldSetState) setState(() {});
+                    return;
+                  } else {
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          valueOrDefault<String>(
+                            APIJagShopGroup.addModePaiementCall.message(
+                              (_model.apiResult4j7?.jsonBody ?? ''),
+                            ),
+                            'Quelque chose ne s\'est pas bien passée.',
+                          ),
+                          style: TextStyle(
+                            color: FlutterFlowTheme.of(context).primaryText,
+                          ),
+                        ),
+                        duration: Duration(milliseconds: 4000),
+                        backgroundColor: FlutterFlowTheme.of(context).error,
+                      ),
+                    );
+                    if (_shouldSetState) setState(() {});
+                    return;
+                  }
+
+                  if (_shouldSetState) setState(() {});
                 },
                 text: FFLocalizations.of(context).getText(
                   'fy1l1hn0' /* Ajouter */,

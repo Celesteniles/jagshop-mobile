@@ -20,6 +20,7 @@ import 'package:share_plus/share_plus.dart';
 class DetailsPageCopyModel extends FlutterFlowModel<DetailsPageCopyWidget> {
   ///  State fields for stateful widgets in this page.
 
+  final unfocusNode = FocusNode();
   // State field(s) for Carousel widget.
   CarouselController? carouselController;
   int carouselCurrentIndex = 1;

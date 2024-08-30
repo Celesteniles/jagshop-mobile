@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/components/mode_img/mode_img_widget.dart';
 import '/components/payment_method/payment_method_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -12,16 +13,11 @@ import 'package:provider/provider.dart';
 class ModePaiementPageModel extends FlutterFlowModel<ModePaiementPageWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // Model for modeImg component.
-  late ModeImgModel modeImgModel;
+  final unfocusNode = FocusNode();
 
   @override
-  void initState(BuildContext context) {
-    modeImgModel = createModel(context, () => ModeImgModel());
-  }
+  void initState(BuildContext context) {}
 
   @override
-  void dispose() {
-    modeImgModel.dispose();
-  }
+  void dispose() {}
 }

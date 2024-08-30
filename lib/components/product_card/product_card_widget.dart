@@ -1,6 +1,8 @@
-import '/backend/backend.dart';
+import '/backend/api_requests/api_calls.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +15,7 @@ class ProductCardWidget extends StatefulWidget {
     required this.product,
   });
 
-  final ProductsRecord? product;
+  final dynamic product;
 
   @override
   State<ProductCardWidget> createState() => _ProductCardWidgetState();
@@ -43,6 +45,8 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Padding(
       padding: EdgeInsets.all(5.0),
       child: Container(
@@ -69,18 +73,18 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                       queryParameters: {
                         'product': serializeParam(
                           widget!.product,
-                          ParamType.Document,
+                          ParamType.JSON,
                         ),
                       }.withoutNulls,
-                      extra: <String, dynamic>{
-                        'product': widget!.product,
-                      },
                     );
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image.network(
-                      widget!.product!.images.first,
+                      getJsonField(
+                        widget!.product,
+                        r'''$.image''',
+                      ).toString(),
                       width: MediaQuery.sizeOf(context).width * 0.48,
                       height: 135.0,
                       fit: BoxFit.cover,
@@ -91,7 +95,10 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                   padding: EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 5.0, 0.0),
                   child: Text(
                     valueOrDefault<String>(
-                      widget!.product?.name,
+                      getJsonField(
+                        widget!.product,
+                        r'''$.name''',
+                      )?.toString(),
                       '-',
                     ).maybeHandleOverflow(
                       maxChars: 22,
@@ -111,7 +118,10 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 5.0, 0.0),
                     child: Text(
                       formatNumber(
-                        widget!.product!.price,
+                        functions.toDouble(getJsonField(
+                          widget!.product,
+                          r'''$.sale_price''',
+                        ).toString()),
                         formatType: FormatType.decimal,
                         decimalType: DecimalType.automatic,
                         currency: 'XAF ',
@@ -135,10 +145,72 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
               children: [
                 Padding(
                   padding: EdgeInsets.all(10.0),
-                  child: Icon(
-                    Icons.favorite_border_rounded,
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                    size: 24.0,
+                  child: FlutterFlowIconButton(
+                    borderColor: Colors.transparent,
+                    borderRadius: 20.0,
+                    buttonSize: 46.0,
+                    icon: Icon(
+                      Icons.favorite_border,
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      size: 24.0,
+                    ),
+                    showLoadingIndicator: true,
+                    onPressed: () async {
+                      var _shouldSetState = false;
+                      _model.apiResultesy =
+                          await APIJagShopGroup.addToFavoritesCall.call(
+                        productId: getJsonField(
+                          widget!.product,
+                          r'''$.id''',
+                        ),
+                        accessToken: FFAppState().accessToken,
+                      );
+
+                      _shouldSetState = true;
+                      if ((_model.apiResultesy?.succeeded ?? true)) {
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              APIJagShopGroup.addToFavoritesCall.message(
+                                (_model.apiResultesy?.jsonBody ?? ''),
+                              )!,
+                              style: TextStyle(
+                                color: FlutterFlowTheme.of(context).primaryText,
+                              ),
+                            ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor:
+                                FlutterFlowTheme.of(context).success,
+                          ),
+                        );
+                        if (_shouldSetState) setState(() {});
+                        return;
+                      } else {
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              valueOrDefault<String>(
+                                APIJagShopGroup.addToFavoritesCall.message(
+                                  (_model.apiResultesy?.jsonBody ?? ''),
+                                ),
+                                'Quelque chose ne s\'est pas bien passée.',
+                              ),
+                              style: TextStyle(
+                                color: FlutterFlowTheme.of(context).primaryText,
+                              ),
+                            ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor: FlutterFlowTheme.of(context).error,
+                          ),
+                        );
+                        if (_shouldSetState) setState(() {});
+                        return;
+                      }
+
+                      if (_shouldSetState) setState(() {});
+                    },
                   ),
                 ),
               ],

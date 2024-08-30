@@ -1,4 +1,4 @@
-import '/backend/backend.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
@@ -7,6 +7,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
 import 'package:auto_size_text/auto_size_text.dart';
@@ -28,7 +29,7 @@ class DetailsPageWidget extends StatefulWidget {
     required this.product,
   });
 
-  final ProductsRecord? product;
+  final dynamic product;
 
   @override
   State<DetailsPageWidget> createState() => _DetailsPageWidgetState();
@@ -167,6 +168,8 @@ class _DetailsPageWidgetState extends State<DetailsPageWidget>
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -191,7 +194,10 @@ class _DetailsPageWidgetState extends State<DetailsPageWidget>
           ),
           title: Text(
             valueOrDefault<String>(
-              widget!.product?.name,
+              getJsonField(
+                widget!.product,
+                r'''$.name''',
+              )?.toString(),
               'name',
             ),
             style: FlutterFlowTheme.of(context).headlineSmall.override(
@@ -212,7 +218,10 @@ class _DetailsPageWidgetState extends State<DetailsPageWidget>
                 children: [
                   Builder(
                     builder: (context) {
-                      final imageVar = widget!.product?.images?.toList() ?? [];
+                      final imageVar = getJsonField(
+                        widget!.product,
+                        r'''$.images''',
+                      ).toList();
 
                       return Container(
                         width: double.infinity,
@@ -233,7 +242,10 @@ class _DetailsPageWidgetState extends State<DetailsPageWidget>
                                     type: PageTransitionType.fade,
                                     child: FlutterFlowExpandedImageView(
                                       image: Image.network(
-                                        imageVarItem,
+                                        getJsonField(
+                                          imageVarItem,
+                                          r'''$.link''',
+                                        ).toString(),
                                         fit: BoxFit.contain,
                                         errorBuilder:
                                             (context, error, stackTrace) =>
@@ -243,19 +255,28 @@ class _DetailsPageWidgetState extends State<DetailsPageWidget>
                                         ),
                                       ),
                                       allowRotation: false,
-                                      tag: imageVarItem,
+                                      tag: getJsonField(
+                                        imageVarItem,
+                                        r'''$.link''',
+                                      ).toString(),
                                       useHeroAnimation: true,
                                     ),
                                   ),
                                 );
                               },
                               child: Hero(
-                                tag: imageVarItem,
+                                tag: getJsonField(
+                                  imageVarItem,
+                                  r'''$.link''',
+                                ).toString(),
                                 transitionOnUserGestures: true,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(0.0),
                                   child: Image.network(
-                                    imageVarItem,
+                                    getJsonField(
+                                      imageVarItem,
+                                      r'''$.link''',
+                                    ).toString(),
                                     width: 300.0,
                                     height: 200.0,
                                     fit: BoxFit.cover,
@@ -312,7 +333,10 @@ class _DetailsPageWidgetState extends State<DetailsPageWidget>
                               Expanded(
                                 child: Text(
                                   valueOrDefault<String>(
-                                    widget!.product?.name,
+                                    getJsonField(
+                                      widget!.product,
+                                      r'''$.name''',
+                                    )?.toString(),
                                     '-',
                                   ),
                                   style: FlutterFlowTheme.of(context)
@@ -335,7 +359,10 @@ class _DetailsPageWidgetState extends State<DetailsPageWidget>
                             children: [
                               Text(
                                 formatNumber(
-                                  widget!.product!.price,
+                                  functions.toDouble(getJsonField(
+                                    widget!.product,
+                                    r'''$.sale_price''',
+                                  ).toString()),
                                   formatType: FormatType.decimal,
                                   decimalType: DecimalType.automatic,
                                   currency: 'XAF ',
@@ -354,145 +381,99 @@ class _DetailsPageWidgetState extends State<DetailsPageWidget>
                           ).animateOnPageLoad(
                               animationsMap['rowOnPageLoadAnimation1']!),
                         ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              24.0, 15.0, 24.0, 0.0),
-                          child: StreamBuilder<StoresRecord>(
-                            stream: StoresRecord.getDocument(
-                                widget!.product!.store!),
-                            builder: (context, snapshot) {
-                              // Customize what your widget looks like when it's loading.
-                              if (!snapshot.hasData) {
-                                return Center(
-                                  child: SizedBox(
-                                    width: 50.0,
-                                    height: 50.0,
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        FlutterFlowTheme.of(context).primary,
+                        if (getJsonField(
+                              widget!.product,
+                              r'''$.store''',
+                            ) !=
+                            null)
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                24.0, 15.0, 24.0, 0.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 40.0,
+                                      height: 40.0,
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Image.network(
+                                        getJsonField(
+                                          widget!.product,
+                                          r'''$.store.logo''',
+                                        ).toString(),
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Image.asset(
+                                          'assets/images/error_image.png',
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              }
-
-                              final shopStoresRecord = snapshot.data!;
-
-                              return Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onTap: () async {
-                                      context.pushNamed(
-                                        'StorePage',
-                                        queryParameters: {
-                                          'store': serializeParam(
-                                            shopStoresRecord,
-                                            ParamType.Document,
+                                    Text(
+                                      getJsonField(
+                                        widget!.product,
+                                        r'''$.store.name''',
+                                      ).toString(),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'DM Sans',
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                            fontSize: 16.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                        }.withoutNulls,
-                                        extra: <String, dynamic>{
-                                          'store': shopStoresRecord,
-                                        },
-                                      );
-                                    },
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 40.0,
-                                          height: 40.0,
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Image.network(
-                                            shopStoresRecord.storeLogo,
-                                            fit: BoxFit.cover,
-                                            errorBuilder:
-                                                (context, error, stackTrace) =>
-                                                    Image.asset(
-                                              'assets/images/error_image.png',
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          shopStoresRecord.storeName,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'DM Sans',
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                                fontSize: 16.0,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                        ),
-                                      ].divide(SizedBox(width: 12.0)),
                                     ),
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      FlutterFlowIconButton(
-                                        borderRadius: 20.0,
-                                        borderWidth: 0.0,
-                                        buttonSize: 40.0,
-                                        icon: Icon(
-                                          Icons.chat_bubble,
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          size: 24.0,
-                                        ),
-                                        onPressed: () {
-                                          print('IconButton pressed ...');
-                                        },
+                                  ].divide(SizedBox(width: 12.0)),
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    FlutterFlowIconButton(
+                                      borderRadius: 20.0,
+                                      borderWidth: 0.0,
+                                      buttonSize: 40.0,
+                                      icon: Icon(
+                                        Icons.chat_bubble,
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        size: 24.0,
                                       ),
-                                      FlutterFlowIconButton(
-                                        borderColor: Colors.transparent,
-                                        borderRadius: 20.0,
-                                        borderWidth: 0.0,
-                                        buttonSize: 40.0,
-                                        icon: Icon(
-                                          Icons.info_rounded,
-                                          color:
-                                              FlutterFlowTheme.of(context).info,
-                                          size: 24.0,
-                                        ),
-                                        onPressed: () async {
-                                          context.pushNamed(
-                                            'StorePage',
-                                            queryParameters: {
-                                              'store': serializeParam(
-                                                shopStoresRecord,
-                                                ParamType.Document,
-                                              ),
-                                            }.withoutNulls,
-                                            extra: <String, dynamic>{
-                                              'store': shopStoresRecord,
-                                            },
-                                          );
-                                        },
+                                      onPressed: () {
+                                        print('IconButton pressed ...');
+                                      },
+                                    ),
+                                    FlutterFlowIconButton(
+                                      borderColor: Colors.transparent,
+                                      borderRadius: 20.0,
+                                      borderWidth: 0.0,
+                                      buttonSize: 40.0,
+                                      icon: Icon(
+                                        Icons.info_rounded,
+                                        color:
+                                            FlutterFlowTheme.of(context).info,
+                                        size: 24.0,
                                       ),
-                                    ],
-                                  ),
-                                ].divide(SizedBox(width: 12.0)),
-                              ).animateOnPageLoad(
-                                  animationsMap['rowOnPageLoadAnimation2']!);
-                            },
+                                      onPressed: () {
+                                        print('IconButton pressed ...');
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ].divide(SizedBox(width: 12.0)),
+                            ).animateOnPageLoad(
+                                animationsMap['rowOnPageLoadAnimation2']!),
                           ),
-                        ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
                               24.0, 12.0, 24.0, 0.0),
@@ -530,7 +511,10 @@ class _DetailsPageWidgetState extends State<DetailsPageWidget>
                                       0.0, 0.0, 0.0, 24.0),
                                   child: Text(
                                     valueOrDefault<String>(
-                                      widget!.product?.description,
+                                      getJsonField(
+                                        widget!.product,
+                                        r'''$.description''',
+                                      )?.toString(),
                                       '-',
                                     ),
                                     style: FlutterFlowTheme.of(context)
@@ -549,368 +533,295 @@ class _DetailsPageWidgetState extends State<DetailsPageWidget>
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 16.0, 0.0, 0.0),
-                          child: Container(
-                            width: double.infinity,
-                            height: 260.0,
-                            decoration: BoxDecoration(
-                              color:
-                                  FlutterFlowTheme.of(context).backgroundColor,
-                            ),
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 12.0, 0.0, 12.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        24.0, 0.0, 24.0, 0.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          FFLocalizations.of(context).getText(
-                                            'hflvaxax' /* Ce que les gens disent */,
-                                          ),
-                                          textAlign: TextAlign.start,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodySmall
-                                              .override(
-                                                fontFamily: 'DM Sans',
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.w300,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
+                        if (false)
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 16.0, 0.0, 0.0),
+                            child: Container(
+                              width: double.infinity,
+                              height: 260.0,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .backgroundColor,
+                              ),
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 12.0, 0.0, 12.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 8.0, 0.0, 0.0),
-                                      child: StreamBuilder<List<ReviewsRecord>>(
-                                        stream: queryReviewsRecord(
-                                          queryBuilder: (reviewsRecord) =>
-                                              reviewsRecord.where(
-                                            'productRef',
-                                            isEqualTo:
-                                                widget!.product?.reference,
-                                          ),
-                                          limit: 5,
-                                        ),
-                                        builder: (context, snapshot) {
-                                          // Customize what your widget looks like when it's loading.
-                                          if (!snapshot.hasData) {
-                                            return Center(
-                                              child: SizedBox(
-                                                width: 50.0,
-                                                height: 50.0,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  valueColor:
-                                                      AlwaysStoppedAnimation<
-                                                          Color>(
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                  ),
+                                          24.0, 0.0, 24.0, 0.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            FFLocalizations.of(context).getText(
+                                              'hflvaxax' /* Ce que les gens disent */,
+                                            ),
+                                            textAlign: TextAlign.start,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodySmall
+                                                .override(
+                                                  fontFamily: 'DM Sans',
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w300,
                                                 ),
-                                              ),
-                                            );
-                                          }
-                                          List<ReviewsRecord>
-                                              pageViewReviewsRecordList =
-                                              snapshot.data!;
-                                          if (pageViewReviewsRecordList
-                                              .isEmpty) {
-                                            return Center(
-                                              child: Image.asset(
-                                                'assets/images/noRatingsEmpty@2x.png',
-                                                width: 300.0,
-                                              ),
-                                            );
-                                          }
-
-                                          return Container(
-                                            width: double.infinity,
-                                            height: 200.0,
-                                            child: Stack(
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          0.0, 0.0, 0.0, 30.0),
-                                                  child: PageView.builder(
-                                                    controller: _model
-                                                            .pageViewController ??=
-                                                        PageController(
-                                                            initialPage: max(
-                                                                0,
-                                                                min(
-                                                                    0,
-                                                                    pageViewReviewsRecordList
-                                                                            .length -
-                                                                        1))),
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    itemCount:
-                                                        pageViewReviewsRecordList
-                                                            .length,
-                                                    itemBuilder: (context,
-                                                        pageViewIndex) {
-                                                      final pageViewReviewsRecord =
-                                                          pageViewReviewsRecordList[
-                                                              pageViewIndex];
-                                                      return Padding(
-                                                        padding: EdgeInsets.all(
-                                                            12.0),
-                                                        child: StreamBuilder<
-                                                            UsersRecord>(
-                                                          stream: UsersRecord
-                                                              .getDocument(
-                                                                  pageViewReviewsRecord
-                                                                      .userRef!),
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            // Customize what your widget looks like when it's loading.
-                                                            if (!snapshot
-                                                                .hasData) {
-                                                              return Center(
-                                                                child: SizedBox(
-                                                                  width: 50.0,
-                                                                  height: 50.0,
-                                                                  child:
-                                                                      CircularProgressIndicator(
-                                                                    valueColor:
-                                                                        AlwaysStoppedAnimation<
-                                                                            Color>(
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primary,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 8.0, 0.0, 0.0),
+                                        child: Container(
+                                          width: double.infinity,
+                                          height: 200.0,
+                                          child: Stack(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 0.0, 0.0, 30.0),
+                                                child: PageView(
+                                                  controller: _model
+                                                          .pageViewController ??=
+                                                      PageController(
+                                                          initialPage: 0),
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsets.all(12.0),
+                                                      child: Container(
+                                                        width: 100.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .cardColor,
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              blurRadius: 5.0,
+                                                              color: Color(
+                                                                  0x24090F13),
+                                                              offset: Offset(
+                                                                0.0,
+                                                                2.0,
+                                                              ),
+                                                            )
+                                                          ],
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      16.0),
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  12.0),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            children: [
+                                                              Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Column(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Text(
+                                                                        FFLocalizations.of(context)
+                                                                            .getText(
+                                                                          'buzeb6ps' /* Josh Richardson */,
+                                                                        ),
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .headlineSmall
+                                                                            .override(
+                                                                              fontFamily: 'DM Sans',
+                                                                              letterSpacing: 0.0,
+                                                                            ),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                                            0.0,
+                                                                            4.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                        child:
+                                                                            RatingBarIndicator(
+                                                                          itemBuilder: (context, index) =>
+                                                                              Icon(
+                                                                            Icons.star_rounded,
+                                                                            color:
+                                                                                Color(0xFFFFA130),
+                                                                          ),
+                                                                          direction:
+                                                                              Axis.horizontal,
+                                                                          rating:
+                                                                              5.0,
+                                                                          unratedColor:
+                                                                              Color(0xFF95A1AC),
+                                                                          itemCount:
+                                                                              5,
+                                                                          itemSize:
+                                                                              24.0,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  Container(
+                                                                    width: 50.0,
+                                                                    height:
+                                                                        50.0,
+                                                                    clipBehavior:
+                                                                        Clip.antiAlias,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      shape: BoxShape
+                                                                          .circle,
+                                                                    ),
+                                                                    child: Image
+                                                                        .network(
+                                                                      'https://picsum.photos/seed/618/600',
+                                                                      errorBuilder: (context,
+                                                                              error,
+                                                                              stackTrace) =>
+                                                                          Image
+                                                                              .asset(
+                                                                        'assets/images/error_image.png',
+                                                                      ),
                                                                     ),
                                                                   ),
-                                                                ),
-                                                              );
-                                                            }
-
-                                                            final containerUsersRecord =
-                                                                snapshot.data!;
-
-                                                            return Container(
-                                                              width: 100.0,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .cardColor,
-                                                                boxShadow: [
-                                                                  BoxShadow(
-                                                                    blurRadius:
-                                                                        5.0,
-                                                                    color: Color(
-                                                                        0x24090F13),
-                                                                    offset:
-                                                                        Offset(
-                                                                      0.0,
-                                                                      2.0,
-                                                                    ),
-                                                                  )
                                                                 ],
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            16.0),
                                                               ),
-                                                              child: Padding(
+                                                              Padding(
                                                                 padding:
-                                                                    EdgeInsets
-                                                                        .all(
-                                                                            12.0),
-                                                                child: Column(
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            8.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                child: Row(
                                                                   mainAxisSize:
                                                                       MainAxisSize
                                                                           .max,
                                                                   children: [
-                                                                    Row(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
-                                                                      children: [
-                                                                        Column(
-                                                                          mainAxisSize:
-                                                                              MainAxisSize.max,
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.center,
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.start,
-                                                                          children: [
-                                                                            Text(
-                                                                              containerUsersRecord.displayName,
-                                                                              style: FlutterFlowTheme.of(context).headlineSmall.override(
-                                                                                    fontFamily: 'DM Sans',
-                                                                                    letterSpacing: 0.0,
-                                                                                  ),
-                                                                            ),
-                                                                            Padding(
-                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
-                                                                              child: RatingBarIndicator(
-                                                                                itemBuilder: (context, index) => Icon(
-                                                                                  Icons.star_rounded,
-                                                                                  color: Color(0xFFFFA130),
-                                                                                ),
-                                                                                direction: Axis.horizontal,
-                                                                                rating: pageViewReviewsRecord.rating,
-                                                                                unratedColor: Color(0xFF95A1AC),
-                                                                                itemCount: 5,
-                                                                                itemSize: 24.0,
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                        Container(
-                                                                          width:
-                                                                              50.0,
-                                                                          height:
-                                                                              50.0,
-                                                                          clipBehavior:
-                                                                              Clip.antiAlias,
-                                                                          decoration:
-                                                                              BoxDecoration(
-                                                                            shape:
-                                                                                BoxShape.circle,
-                                                                          ),
-                                                                          child:
-                                                                              Image.network(
-                                                                            containerUsersRecord.photoUrl,
-                                                                            errorBuilder: (context, error, stackTrace) =>
-                                                                                Image.asset(
-                                                                              'assets/images/error_image.png',
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    Padding(
-                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                          0.0,
-                                                                          8.0,
-                                                                          0.0,
-                                                                          0.0),
+                                                                    Expanded(
                                                                       child:
-                                                                          Row(
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.max,
-                                                                        children: [
-                                                                          Expanded(
-                                                                            child:
-                                                                                Padding(
-                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
-                                                                              child: AutoSizeText(
-                                                                                pageViewReviewsRecord.ratingDescription.maybeHandleOverflow(
-                                                                                  maxChars: 130,
-                                                                                  replacement: '…',
-                                                                                ),
-                                                                                style: FlutterFlowTheme.of(context).bodySmall.override(
-                                                                                      fontFamily: 'Lexend Deca',
-                                                                                      color: Color(0xFF8B97A2),
-                                                                                      fontSize: 14.0,
-                                                                                      letterSpacing: 0.0,
-                                                                                      fontWeight: FontWeight.w300,
-                                                                                    ),
-                                                                              ),
-                                                                            ),
+                                                                          Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            24.0),
+                                                                        child:
+                                                                            AutoSizeText(
+                                                                          FFLocalizations.of(context)
+                                                                              .getText(
+                                                                            'eo5180fn' /* Lorem ipsum dolor sit amet, co... */,
                                                                           ),
-                                                                        ],
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodySmall
+                                                                              .override(
+                                                                                fontFamily: 'Lexend Deca',
+                                                                                color: Color(0xFF8B97A2),
+                                                                                fontSize: 14.0,
+                                                                                letterSpacing: 0.0,
+                                                                                fontWeight: FontWeight.w300,
+                                                                              ),
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                   ],
                                                                 ),
                                                               ),
-                                                            );
-                                                          },
+                                                            ],
+                                                          ),
                                                         ),
-                                                      );
-                                                    },
-                                                  ),
-                                                ),
-                                                Align(
-                                                  alignment:
-                                                      AlignmentDirectional(
-                                                          0.0, 1.0),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 10.0),
-                                                    child: smooth_page_indicator
-                                                        .SmoothPageIndicator(
-                                                      controller: _model
-                                                              .pageViewController ??=
-                                                          PageController(
-                                                              initialPage: max(
-                                                                  0,
-                                                                  min(
-                                                                      0,
-                                                                      pageViewReviewsRecordList
-                                                                              .length -
-                                                                          1))),
-                                                      count:
-                                                          pageViewReviewsRecordList
-                                                              .length,
-                                                      axisDirection:
-                                                          Axis.horizontal,
-                                                      onDotClicked: (i) async {
-                                                        await _model
-                                                            .pageViewController!
-                                                            .animateToPage(
-                                                          i,
-                                                          duration: Duration(
-                                                              milliseconds:
-                                                                  500),
-                                                          curve: Curves.ease,
-                                                        );
-                                                        setState(() {});
-                                                      },
-                                                      effect: smooth_page_indicator
-                                                          .ExpandingDotsEffect(
-                                                        expansionFactor: 2.0,
-                                                        spacing: 8.0,
-                                                        radius: 16.0,
-                                                        dotWidth: 8.0,
-                                                        dotHeight: 8.0,
-                                                        dotColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .grayIcon,
-                                                        activeDotColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .gunmetal,
-                                                        paintStyle:
-                                                            PaintingStyle.fill,
                                                       ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment: AlignmentDirectional(
+                                                    0.0, 1.0),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 0.0, 0.0, 10.0),
+                                                  child: smooth_page_indicator
+                                                      .SmoothPageIndicator(
+                                                    controller: _model
+                                                            .pageViewController ??=
+                                                        PageController(
+                                                            initialPage: 0),
+                                                    count: 1,
+                                                    axisDirection:
+                                                        Axis.horizontal,
+                                                    onDotClicked: (i) async {
+                                                      await _model
+                                                          .pageViewController!
+                                                          .animateToPage(
+                                                        i,
+                                                        duration: Duration(
+                                                            milliseconds: 500),
+                                                        curve: Curves.ease,
+                                                      );
+                                                      setState(() {});
+                                                    },
+                                                    effect: smooth_page_indicator
+                                                        .ExpandingDotsEffect(
+                                                      expansionFactor: 2.0,
+                                                      spacing: 8.0,
+                                                      radius: 16.0,
+                                                      dotWidth: 8.0,
+                                                      dotHeight: 8.0,
+                                                      dotColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .grayIcon,
+                                                      activeDotColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .gunmetal,
+                                                      paintStyle:
+                                                          PaintingStyle.fill,
                                                     ),
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                          );
-                                        },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
                       ],
                     ),
                   ),
@@ -964,8 +875,96 @@ class _DetailsPageWidgetState extends State<DetailsPageWidget>
                   ),
                   Expanded(
                     child: FFButtonWidget(
-                      onPressed: () {
-                        print('Button pressed ...');
+                      onPressed: () async {
+                        var _shouldSetState = false;
+                        if (functions.isSameStrore(
+                            FFAppState().carts.toList(), widget!.product!)) {
+                          _model.apiResulthpg =
+                              await APIJagShopGroup.addItemsToCartCall.call(
+                            productId: getJsonField(
+                              widget!.product,
+                              r'''$.id''',
+                            ),
+                            accessToken: FFAppState().accessToken,
+                            quantity: _model.countControllerValue,
+                          );
+
+                          _shouldSetState = true;
+                          if ((_model.apiResulthpg?.succeeded ?? true)) {
+                            FFAppState().addToCarts(widget!.product!);
+                            setState(() {});
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  valueOrDefault<String>(
+                                    APIJagShopGroup.addItemsToCartCall.message(
+                                      (_model.apiResulthpg?.jsonBody ?? ''),
+                                    ),
+                                    'Article ajouté au panier avec succès !',
+                                  ),
+                                  style: TextStyle(
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                  ),
+                                ),
+                                duration: Duration(milliseconds: 4000),
+                                backgroundColor:
+                                    FlutterFlowTheme.of(context).success,
+                              ),
+                            );
+                            if (Navigator.of(context).canPop()) {
+                              context.pop();
+                            }
+                            context.pushNamed('Cart');
+
+                            if (_shouldSetState) setState(() {});
+                            return;
+                          } else {
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  valueOrDefault<String>(
+                                    APIJagShopGroup.addItemsToCartCall.message(
+                                      (_model.apiResulthpg?.jsonBody ?? ''),
+                                    ),
+                                    'Quelque chose ne s\'est pas bien passée.',
+                                  ),
+                                  style: TextStyle(
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                  ),
+                                ),
+                                duration: Duration(milliseconds: 4000),
+                                backgroundColor:
+                                    FlutterFlowTheme.of(context).error,
+                              ),
+                            );
+                            if (_shouldSetState) setState(() {});
+                            return;
+                          }
+                        } else {
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Pas la même boutique',
+                                style: TextStyle(
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                ),
+                              ),
+                              duration: Duration(milliseconds: 4000),
+                              backgroundColor:
+                                  FlutterFlowTheme.of(context).error,
+                            ),
+                          );
+                          if (_shouldSetState) setState(() {});
+                          return;
+                        }
+
+                        if (_shouldSetState) setState(() {});
                       },
                       text: FFLocalizations.of(context).getText(
                         'hosve8gv' /* Ajouter au panier */,

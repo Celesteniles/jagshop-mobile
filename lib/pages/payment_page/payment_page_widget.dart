@@ -109,14 +109,14 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  Icon(
-                                    Icons.new_releases,
+                                  FaIcon(
+                                    FontAwesomeIcons.shippingFast,
                                     color: FlutterFlowTheme.of(context).info,
-                                    size: 24.0,
+                                    size: 18.0,
                                   ),
                                   Text(
                                     FFLocalizations.of(context).getText(
-                                      'kdl6l86r' /* Ajouter un coupon */,
+                                      'kdl6l86r' /* Option de livraison */,
                                     ),
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
@@ -134,7 +134,72 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                 children: [
                                   Text(
                                     FFLocalizations.of(context).getText(
-                                      'izjzs34g' /* Ajouter */,
+                                      'izjzs34g' /* à domicilie */,
+                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily: 'DM Sans',
+                                          letterSpacing: 0.0,
+                                        ),
+                                  ),
+                                ].divide(SizedBox(width: 10.0)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: FlutterFlowTheme.of(context).cardColor,
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 10.0,
+                              color: Color(0x19000000),
+                              offset: Offset(
+                                0.0,
+                                0.0,
+                              ),
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(15.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Icon(
+                                    Icons.new_releases,
+                                    color: FlutterFlowTheme.of(context).info,
+                                    size: 24.0,
+                                  ),
+                                  Text(
+                                    FFLocalizations.of(context).getText(
+                                      'psf0d7ce' /* Ajouter un coupon */,
+                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily: 'DM Sans',
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          letterSpacing: 0.0,
+                                        ),
+                                  ),
+                                ].divide(SizedBox(width: 10.0)),
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    FFLocalizations.of(context).getText(
+                                      'ervoqecn' /* Ajouter */,
                                     ),
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
@@ -446,7 +511,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                     children: [
                                       Text(
                                         FFLocalizations.of(context).getText(
-                                          'k2dml7vn' /* Frais d'expédition */,
+                                          'k2dml7vn' /* Frais de livraison */,
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
@@ -674,7 +739,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                     color: Colors.white,
                                     letterSpacing: 0.0,
                                   ),
-                              elevation: 3.0,
+                              elevation: 0.0,
                               borderSide: BorderSide(
                                 color: Colors.transparent,
                                 width: 1.0,

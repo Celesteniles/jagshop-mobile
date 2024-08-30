@@ -4,25 +4,25 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'chat_main_model.dart';
-export 'chat_main_model.dart';
+import 'categories_model.dart';
+export 'categories_model.dart';
 
-class ChatMainWidget extends StatefulWidget {
-  const ChatMainWidget({super.key});
+class CategoriesWidget extends StatefulWidget {
+  const CategoriesWidget({super.key});
 
   @override
-  State<ChatMainWidget> createState() => _ChatMainWidgetState();
+  State<CategoriesWidget> createState() => _CategoriesWidgetState();
 }
 
-class _ChatMainWidgetState extends State<ChatMainWidget> {
-  late ChatMainModel _model;
+class _CategoriesWidgetState extends State<CategoriesWidget> {
+  late CategoriesModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => ChatMainModel());
+    _model = createModel(context, () => CategoriesModel());
   }
 
   @override
@@ -42,7 +42,7 @@ class _ChatMainWidgetState extends State<ChatMainWidget> {
         automaticallyImplyLeading: false,
         title: Text(
           FFLocalizations.of(context).getText(
-            'n3e1742q' /* Messages */,
+            'n3e1742q' /* Catégories */,
           ),
           style: FlutterFlowTheme.of(context).headlineMedium.override(
                 fontFamily: 'DM Sans',

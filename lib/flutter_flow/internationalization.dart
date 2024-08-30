@@ -140,10 +140,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Home',
     },
   },
-  // chatMain
+  // Categories
   {
     'n3e1742q': {
-      'fr': 'Messages',
+      'fr': 'Catégories',
       'en': '',
     },
     'jvhip5rd': {
@@ -214,8 +214,12 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'modify the profile',
     },
     'sa9vgy7r': {
-      'fr': 'Mode de paiement',
+      'fr': 'Adresse de livraison',
       'en': 'Payment method',
+    },
+    'b6yynwrq': {
+      'fr': 'Mode de paiement',
+      'en': '',
     },
     'ujtrpbdv': {
       'fr': 'Portefeuille',
@@ -452,10 +456,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   },
   // Home
   {
-    'pvonrvpx': {
-      'fr': 'Vêtements',
-      'en': '',
-    },
     '26z39fhi': {
       'fr': 'JAG ',
       'en': 'JAG',
@@ -515,39 +515,19 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'fr': 'Mes favoris',
       'en': '',
     },
+    '4nq7fj26': {
+      'fr': 'Aucun article trouvé dans les favoris',
+      'en': '',
+    },
+    '6nn525c6': {
+      'fr': 'Parcourir',
+      'en': '',
+    },
   },
   // Cart
   {
-    '9s76pz59': {
-      'fr': 'Hello World',
-      'en': '',
-    },
-    'i19acpzd': {
-      'fr': 'XAF 2,000',
-      'en': '',
-    },
-    'adnaxl2d': {
-      'fr': '1',
-      'en': '',
-    },
-    '7s4d8prp': {
-      'fr': 'Sous-total',
-      'en': '',
-    },
-    '0c88fz1q': {
-      'fr': '1,200.00 FCFA',
-      'en': '',
-    },
-    '3jejffy0': {
-      'fr': 'Frais d\'expédition',
-      'en': '',
-    },
-    'a9ddjjct': {
-      'fr': '1,000.00 FCFA',
-      'en': '',
-    },
     'xig9vt1k': {
-      'fr': 'TOTAL',
+      'fr': 'SOUS-TOTAL',
       'en': '',
     },
     's43da330': {
@@ -577,10 +557,18 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   // PaymentPage
   {
     'kdl6l86r': {
-      'fr': 'Ajouter un coupon',
+      'fr': 'Option de livraison',
       'en': '',
     },
     'izjzs34g': {
+      'fr': 'à domicilie',
+      'en': '',
+    },
+    'psf0d7ce': {
+      'fr': 'Ajouter un coupon',
+      'en': '',
+    },
+    'ervoqecn': {
       'fr': 'Ajouter',
       'en': '',
     },
@@ -617,7 +605,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'k2dml7vn': {
-      'fr': 'Frais d\'expédition',
+      'fr': 'Frais de livraison',
       'en': '',
     },
     'nrb570g9': {
@@ -665,6 +653,15 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'hflvaxax': {
       'fr': 'Ce que les gens disent',
+      'en': '',
+    },
+    'buzeb6ps': {
+      'fr': 'Josh Richardson',
+      'en': '',
+    },
+    'eo5180fn': {
+      'fr':
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...',
       'en': '',
     },
     'hosve8gv': {
@@ -762,14 +759,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'ckgwo2tg': {
       'fr': 'Ajouter un nouveau de paiement',
-      'en': '',
-    },
-    '855rkth6': {
-      'fr': 'Hello World',
-      'en': '',
-    },
-    'hrarhpwk': {
-      'fr': 'mathode',
       'en': '',
     },
     'fua6c037': {
@@ -1074,17 +1063,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     '9mjh8220': {
       'fr': 'Never Mind',
       'en': 'Never Mind',
-    },
-  },
-  // ProductComponent
-  {
-    '9cmuey6g': {
-      'fr': 'Paul Masquin - Brosse',
-      'en': '',
-    },
-    'bm77vcsm': {
-      'fr': 'CFA 2,250',
-      'en': '',
     },
   },
   // paymentMethod

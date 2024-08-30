@@ -20,6 +20,10 @@ class PaymentPageModel extends FlutterFlowModel<PaymentPageWidget> {
 
   double livraison = 0.0;
 
+  ///  State fields for stateful widgets in this page.
+
+  final unfocusNode = FocusNode();
+
   @override
   void initState(BuildContext context) {}
 

@@ -274,9 +274,28 @@ class APIJagShopGroup {
   static LoginCall loginCall = LoginCall();
   static RegisterCall registerCall = RegisterCall();
   static GetProductsCall getProductsCall = GetProductsCall();
+  static GetProductsCategoriesCall getProductsCategoriesCall =
+      GetProductsCategoriesCall();
+  static GetProductsByCategoryCall getProductsByCategoryCall =
+      GetProductsByCategoryCall();
   static GetOrdersCall getOrdersCall = GetOrdersCall();
   static GetADSCall getADSCall = GetADSCall();
   static GetLocalitesCall getLocalitesCall = GetLocalitesCall();
+  static GetCartCall getCartCall = GetCartCall();
+  static AddItemsToCartCall addItemsToCartCall = AddItemsToCartCall();
+  static RemoveItemsToCartCall removeItemsToCartCall = RemoveItemsToCartCall();
+  static AddOrderCall addOrderCall = AddOrderCall();
+  static GetModesPaiementsCall getModesPaiementsCall = GetModesPaiementsCall();
+  static GetAddressesCall getAddressesCall = GetAddressesCall();
+  static GetFavoritesCall getFavoritesCall = GetFavoritesCall();
+  static AddAddressCall addAddressCall = AddAddressCall();
+  static AddModePaiementCall addModePaiementCall = AddModePaiementCall();
+  static AddToFavoritesCall addToFavoritesCall = AddToFavoritesCall();
+  static RemoveFromFavoritesCall removeFromFavoritesCall =
+      RemoveFromFavoritesCall();
+  static DeleteModePaiementsCall deleteModePaiementsCall =
+      DeleteModePaiementsCall();
+  static DeleteAddressCall deleteAddressCall = DeleteAddressCall();
 }
 
 class VerifyOTPCall {
@@ -611,6 +630,75 @@ class GetProductsCall {
       ) as List?;
 }
 
+class GetProductsCategoriesCall {
+  Future<ApiCallResponse> call({
+    String? accessToken = '',
+  }) async {
+    final baseUrl = APIJagShopGroup.getBaseUrl(
+      accessToken: accessToken,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Get Products Categories',
+      apiUrl: '${baseUrl}/products/categories',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${accessToken}',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List? data(dynamic response) => getJsonField(
+        response,
+        r'''$.data''',
+        true,
+      ) as List?;
+}
+
+class GetProductsByCategoryCall {
+  Future<ApiCallResponse> call({
+    String? id = '',
+    String? accessToken = '',
+  }) async {
+    final baseUrl = APIJagShopGroup.getBaseUrl(
+      accessToken: accessToken,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Get Products By Category',
+      apiUrl: '${baseUrl}/products/category/${id}',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${accessToken}',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List? data(dynamic response) => getJsonField(
+        response,
+        r'''$.data''',
+        true,
+      ) as List?;
+}
+
 class GetOrdersCall {
   Future<ApiCallResponse> call({
     String? accessToken = '',
@@ -637,6 +725,12 @@ class GetOrdersCall {
       alwaysAllowBody: false,
     );
   }
+
+  List? data(dynamic response) => getJsonField(
+        response,
+        r'''$.data''',
+        true,
+      ) as List?;
 }
 
 class GetADSCall {
@@ -665,6 +759,12 @@ class GetADSCall {
       alwaysAllowBody: false,
     );
   }
+
+  List? data(dynamic response) => getJsonField(
+        response,
+        r'''$.data''',
+        true,
+      ) as List?;
 }
 
 class GetLocalitesCall {
@@ -693,6 +793,520 @@ class GetLocalitesCall {
       alwaysAllowBody: false,
     );
   }
+}
+
+class GetCartCall {
+  Future<ApiCallResponse> call({
+    String? accessToken = '',
+  }) async {
+    final baseUrl = APIJagShopGroup.getBaseUrl(
+      accessToken: accessToken,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Get Cart',
+      apiUrl: '${baseUrl}/cart',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${accessToken}',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? message(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.message''',
+      ));
+  dynamic? cart(dynamic response) => getJsonField(
+        response,
+        r'''$.cart''',
+      );
+  double? total(dynamic response) => castToType<double>(getJsonField(
+        response,
+        r'''$.total''',
+      ));
+  List? items(dynamic response) => getJsonField(
+        response,
+        r'''$.cart.items''',
+        true,
+      ) as List?;
+}
+
+class AddItemsToCartCall {
+  Future<ApiCallResponse> call({
+    int? productId,
+    int? quantity = 1,
+    String? accessToken = '',
+  }) async {
+    final baseUrl = APIJagShopGroup.getBaseUrl(
+      accessToken: accessToken,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Add items to cart',
+      apiUrl: '${baseUrl}/cart/add-items',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${accessToken}',
+      },
+      params: {
+        'product_id': productId,
+        'quantity': quantity,
+      },
+      bodyType: BodyType.MULTIPART,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? message(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.message''',
+      ));
+}
+
+class RemoveItemsToCartCall {
+  Future<ApiCallResponse> call({
+    int? cartItemId,
+    String? accessToken = '',
+  }) async {
+    final baseUrl = APIJagShopGroup.getBaseUrl(
+      accessToken: accessToken,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Remove items to cart',
+      apiUrl: '${baseUrl}/cart/remove-item/${cartItemId}',
+      callType: ApiCallType.DELETE,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${accessToken}',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? message(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.message''',
+      ));
+}
+
+class AddOrderCall {
+  Future<ApiCallResponse> call({
+    String? couponCode = '',
+    String? accessToken = '',
+  }) async {
+    final baseUrl = APIJagShopGroup.getBaseUrl(
+      accessToken: accessToken,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Add order',
+      apiUrl: '${baseUrl}/orders/add',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${accessToken}',
+      },
+      params: {
+        'coupon_code': couponCode,
+      },
+      bodyType: BodyType.MULTIPART,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? message(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.message''',
+      ));
+  dynamic? order(dynamic response) => getJsonField(
+        response,
+        r'''$.order''',
+      );
+}
+
+class GetModesPaiementsCall {
+  Future<ApiCallResponse> call({
+    String? accessToken = '',
+  }) async {
+    final baseUrl = APIJagShopGroup.getBaseUrl(
+      accessToken: accessToken,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Get modes paiements',
+      apiUrl: '${baseUrl}/mode-paiements',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${accessToken}',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List? data(dynamic response) => getJsonField(
+        response,
+        r'''$.data''',
+        true,
+      ) as List?;
+  String? message(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.message''',
+      ));
+}
+
+class GetAddressesCall {
+  Future<ApiCallResponse> call({
+    String? accessToken = '',
+  }) async {
+    final baseUrl = APIJagShopGroup.getBaseUrl(
+      accessToken: accessToken,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Get addresses',
+      apiUrl: '${baseUrl}/address',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${accessToken}',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List? data(dynamic response) => getJsonField(
+        response,
+        r'''$.data''',
+        true,
+      ) as List?;
+  String? message(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.message''',
+      ));
+}
+
+class GetFavoritesCall {
+  Future<ApiCallResponse> call({
+    String? accessToken = '',
+  }) async {
+    final baseUrl = APIJagShopGroup.getBaseUrl(
+      accessToken: accessToken,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Get favorites',
+      apiUrl: '${baseUrl}/products/favorites',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${accessToken}',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? message(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.message''',
+      ));
+  List? data(dynamic response) => getJsonField(
+        response,
+        r'''$.favorites''',
+        true,
+      ) as List?;
+}
+
+class AddAddressCall {
+  Future<ApiCallResponse> call({
+    String? adresse = '',
+    String? latitude = '',
+    String? longitude = '',
+    int? localiteId = 1,
+    String? accessToken = '',
+  }) async {
+    final baseUrl = APIJagShopGroup.getBaseUrl(
+      accessToken: accessToken,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Add address',
+      apiUrl: '${baseUrl}/address',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${accessToken}',
+      },
+      params: {
+        'adresse': adresse,
+        'latitude': latitude,
+        'longitude': longitude,
+        'localite_id': localiteId,
+      },
+      bodyType: BodyType.MULTIPART,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? message(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.message''',
+      ));
+  dynamic? data(dynamic response) => getJsonField(
+        response,
+        r'''$.data''',
+      );
+}
+
+class AddModePaiementCall {
+  Future<ApiCallResponse> call({
+    String? phone = '',
+    String? type = '',
+    String? accessToken = '',
+  }) async {
+    final baseUrl = APIJagShopGroup.getBaseUrl(
+      accessToken: accessToken,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Add mode paiement',
+      apiUrl: '${baseUrl}/mode-paiements',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${accessToken}',
+      },
+      params: {
+        'phone': phone,
+        'type': type,
+      },
+      bodyType: BodyType.MULTIPART,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? message(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.message''',
+      ));
+  dynamic? data(dynamic response) => getJsonField(
+        response,
+        r'''$.data''',
+      );
+}
+
+class AddToFavoritesCall {
+  Future<ApiCallResponse> call({
+    int? productId,
+    String? accessToken = '',
+  }) async {
+    final baseUrl = APIJagShopGroup.getBaseUrl(
+      accessToken: accessToken,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Add to favorites',
+      apiUrl: '${baseUrl}/products/add-to-favorites',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${accessToken}',
+      },
+      params: {
+        'product_id': productId,
+      },
+      bodyType: BodyType.MULTIPART,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? message(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.message''',
+      ));
+  dynamic? data(dynamic response) => getJsonField(
+        response,
+        r'''$.data''',
+      );
+}
+
+class RemoveFromFavoritesCall {
+  Future<ApiCallResponse> call({
+    int? productId,
+    String? accessToken = '',
+  }) async {
+    final baseUrl = APIJagShopGroup.getBaseUrl(
+      accessToken: accessToken,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Remove from favorites',
+      apiUrl: '${baseUrl}/products/remove-from-favorites',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${accessToken}',
+      },
+      params: {
+        'product_id': productId,
+      },
+      bodyType: BodyType.MULTIPART,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? message(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.message''',
+      ));
+  dynamic? data(dynamic response) => getJsonField(
+        response,
+        r'''$.data''',
+      );
+}
+
+class DeleteModePaiementsCall {
+  Future<ApiCallResponse> call({
+    int? id,
+    String? accessToken = '',
+  }) async {
+    final baseUrl = APIJagShopGroup.getBaseUrl(
+      accessToken: accessToken,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Delete mode paiements',
+      apiUrl: '${baseUrl}/mode-paiements/${id}',
+      callType: ApiCallType.DELETE,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${accessToken}',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? message(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.message''',
+      ));
+}
+
+class DeleteAddressCall {
+  Future<ApiCallResponse> call({
+    int? id,
+    String? accessToken = '',
+  }) async {
+    final baseUrl = APIJagShopGroup.getBaseUrl(
+      accessToken: accessToken,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Delete address',
+      apiUrl: '${baseUrl}/address/${id}',
+      callType: ApiCallType.DELETE,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${accessToken}',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  String? message(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.message''',
+      ));
 }
 
 /// End API JagShop Group Code

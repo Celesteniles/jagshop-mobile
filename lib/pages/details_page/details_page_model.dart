@@ -1,4 +1,4 @@
-import '/backend/backend.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
@@ -7,6 +7,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'details_page_widget.dart' show DetailsPageWidget;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
@@ -24,6 +25,7 @@ import 'package:provider/provider.dart';
 class DetailsPageModel extends FlutterFlowModel<DetailsPageWidget> {
   ///  State fields for stateful widgets in this page.
 
+  final unfocusNode = FocusNode();
   // State field(s) for Carousel widget.
   CarouselController? carouselController;
   int carouselCurrentIndex = 1;
@@ -38,6 +40,8 @@ class DetailsPageModel extends FlutterFlowModel<DetailsPageWidget> {
       : 0;
   // State field(s) for CountController widget.
   int? countControllerValue;
+  // Stores action output result for [Backend Call - API (Add items to cart)] action in Button widget.
+  ApiCallResponse? apiResulthpg;
 
   @override
   void initState(BuildContext context) {}

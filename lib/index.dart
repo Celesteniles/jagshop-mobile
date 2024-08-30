@@ -1,6 +1,6 @@
 // Export pages
 export '/pages/search_page/search_page_widget.dart' show SearchPageWidget;
-export '/pages/chat_main/chat_main_widget.dart' show ChatMainWidget;
+export '/pages/categories/categories_widget.dart' show CategoriesWidget;
 export '/pages/chat_details/chat_details_widget.dart' show ChatDetailsWidget;
 export '/pages/subpage/property_review/property_review_widget.dart'
     show PropertyReviewWidget;
