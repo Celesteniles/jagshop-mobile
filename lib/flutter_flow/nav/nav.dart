@@ -270,6 +270,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'AproposPage',
           path: '/aproposPage',
           builder: (context, params) => AproposPageWidget(),
+        ),
+        FFRoute(
+          name: 'AdressePage',
+          path: '/adressePage',
+          builder: (context, params) => AdressePageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

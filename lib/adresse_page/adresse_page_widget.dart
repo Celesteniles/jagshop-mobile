@@ -1,6 +1,5 @@
 import '/backend/api_requests/api_calls.dart';
-import '/components/mode_img/mode_img_widget.dart';
-import '/components/payment_method/payment_method_widget.dart';
+import '/components/adresse_component_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -8,25 +7,25 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'mode_paiement_page_model.dart';
-export 'mode_paiement_page_model.dart';
+import 'adresse_page_model.dart';
+export 'adresse_page_model.dart';
 
-class ModePaiementPageWidget extends StatefulWidget {
-  const ModePaiementPageWidget({super.key});
+class AdressePageWidget extends StatefulWidget {
+  const AdressePageWidget({super.key});
 
   @override
-  State<ModePaiementPageWidget> createState() => _ModePaiementPageWidgetState();
+  State<AdressePageWidget> createState() => _AdressePageWidgetState();
 }
 
-class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
-  late ModePaiementPageModel _model;
+class _AdressePageWidgetState extends State<AdressePageWidget> {
+  late AdressePageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => ModePaiementPageModel());
+    _model = createModel(context, () => AdressePageModel());
   }
 
   @override
@@ -64,7 +63,7 @@ class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
           ),
           title: Text(
             FFLocalizations.of(context).getText(
-              'rq5rgvpn' /* Mode de paiement */,
+              'h3v72cwx' /* Adresse */,
             ),
             style: FlutterFlowTheme.of(context).headlineSmall.override(
                   fontFamily: 'DM Sans',
@@ -96,7 +95,7 @@ class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
                       Flexible(
                         child: Text(
                           FFLocalizations.of(context).getText(
-                            '7ipsckgj' /* Enregistrez votre mode de paie... */,
+                            'ln6aadam' /* Enregistrez votre mode de paie... */,
                           ),
                           textAlign: TextAlign.start,
                           style:
@@ -131,8 +130,12 @@ class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
                           child: Padding(
                             padding: MediaQuery.viewInsetsOf(context),
                             child: Container(
-                              height: 400.0,
-                              child: PaymentMethodWidget(),
+                              height: 750.0,
+                              child: AdresseComponentWidget(
+                                actionComp: () async {
+                                  Navigator.pop(context);
+                                },
+                              ),
                             ),
                           ),
                         );
@@ -143,6 +146,7 @@ class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       FlutterFlowIconButton(
+                        borderColor: Colors.transparent,
                         borderRadius: 100.0,
                         borderWidth: 0.0,
                         buttonSize: 45.0,
@@ -166,7 +170,11 @@ class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
                                   padding: MediaQuery.viewInsetsOf(context),
                                   child: Container(
                                     height: 400.0,
-                                    child: PaymentMethodWidget(),
+                                    child: AdresseComponentWidget(
+                                      actionComp: () async {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
                                   ),
                                 ),
                               );
@@ -177,7 +185,7 @@ class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
                       Flexible(
                         child: Text(
                           FFLocalizations.of(context).getText(
-                            'ckgwo2tg' /* Ajouter un nouveau de paiement */,
+                            'zsvhq0nm' /* Ajouter un nouveau de paiement */,
                           ),
                           style: FlutterFlowTheme.of(context)
                               .bodyMedium
@@ -195,8 +203,8 @@ class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
                 ),
               ),
               FutureBuilder<ApiCallResponse>(
-                future: FFAppState().modePaiements(
-                  requestFn: () => APIJagShopGroup.getModesPaiementsCall.call(
+                future: FFAppState().addresses(
+                  requestFn: () => APIJagShopGroup.getAddressesCall.call(
                     accessToken: FFAppState().accessToken,
                   ),
                 ),
@@ -215,13 +223,13 @@ class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
                       ),
                     );
                   }
-                  final listViewGetModesPaiementsResponse = snapshot.data!;
+                  final listViewGetAddressesResponse = snapshot.data!;
 
                   return Builder(
                     builder: (context) {
-                      final modeItem = APIJagShopGroup.getModesPaiementsCall
+                      final adresse = APIJagShopGroup.getAddressesCall
                               .data(
-                                listViewGetModesPaiementsResponse.jsonBody,
+                                listViewGetAddressesResponse.jsonBody,
                               )
                               ?.toList() ??
                           [];
@@ -230,23 +238,30 @@ class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
-                        itemCount: modeItem.length,
-                        separatorBuilder: (_, __) => SizedBox(height: 12.0),
-                        itemBuilder: (context, modeItemIndex) {
-                          final modeItemItem = modeItem[modeItemIndex];
+                        itemCount: adresse.length,
+                        separatorBuilder: (_, __) => SizedBox(height: 10.0),
+                        itemBuilder: (context, adresseIndex) {
+                          final adresseItem = adresse[adresseIndex];
                           return Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 15.0, 0.0, 15.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                ModeImgWidget(
-                                  key: Key(
-                                      'Key0gb_${modeItemIndex}_of_${modeItem.length}'),
-                                  mode: getJsonField(
-                                    modeItemItem,
-                                    r'''$.type''',
-                                  ).toString(),
+                                Container(
+                                  width: 50.0,
+                                  height: 50.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Icon(
+                                    Icons.warehouse_rounded,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    size: 24.0,
+                                  ),
                                 ),
                                 Column(
                                   mainAxisSize: MainAxisSize.max,
@@ -254,8 +269,8 @@ class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
                                   children: [
                                     Text(
                                       getJsonField(
-                                        modeItemItem,
-                                        r'''$.phone''',
+                                        adresseItem,
+                                        r'''$.nom_adresse''',
                                       ).toString(),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -270,8 +285,8 @@ class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
                                     ),
                                     Text(
                                       getJsonField(
-                                        modeItemItem,
-                                        r'''$.type''',
+                                        adresseItem,
+                                        r'''$.adresse''',
                                       ).toString(),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium

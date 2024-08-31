@@ -1,3 +1,6 @@
+import '/backend/api_requests/api_calls.dart';
+import '/components/empty_mode_widget.dart';
+import '/components/mode_img/mode_img_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -81,13 +84,15 @@ class _ChoosePaymentMethodWidgetState extends State<ChoosePaymentMethodWidget>
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
       child: Container(
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).secondaryBackground,
+          color: FlutterFlowTheme.of(context).backgroundColor,
           boxShadow: [
             BoxShadow(
               blurRadius: 6.0,
@@ -199,96 +204,191 @@ class _ChoosePaymentMethodWidgetState extends State<ChoosePaymentMethodWidget>
                         ),
                       ),
                     ),
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        ListView(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    'https://picsum.photos/seed/368/600',
-                                    width: 40.0,
-                                    height: 40.0,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        't0vtn7ct' /* Hello World */,
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'DM Sans',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                            fontSize: 16.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w800,
-                                          ),
-                                    ),
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        '2opxfgd9' /* mathode */,
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'DM Sans',
-                                            letterSpacing: 0.0,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ].divide(SizedBox(width: 10.0)),
+                    SingleChildScrollView(
+                      primary: false,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          FutureBuilder<ApiCallResponse>(
+                            future: FFAppState().modePaiements(
+                              requestFn: () =>
+                                  APIJagShopGroup.getModesPaiementsCall.call(
+                                accessToken: FFAppState().accessToken,
+                              ),
                             ),
-                          ].divide(SizedBox(height: 10.0)),
-                        ),
-                      ].divide(SizedBox(height: 12.0)),
+                            builder: (context, snapshot) {
+                              // Customize what your widget looks like when it's loading.
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: SizedBox(
+                                    width: 50.0,
+                                    height: 50.0,
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        FlutterFlowTheme.of(context).primary,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                              final listViewGetModesPaiementsResponse =
+                                  snapshot.data!;
+
+                              return Builder(
+                                builder: (context) {
+                                  final mode =
+                                      APIJagShopGroup.getModesPaiementsCall
+                                              .data(
+                                                listViewGetModesPaiementsResponse
+                                                    .jsonBody,
+                                              )
+                                              ?.toList() ??
+                                          [];
+                                  if (mode.isEmpty) {
+                                    return Center(
+                                      child: EmptyModeWidget(),
+                                    );
+                                  }
+
+                                  return ListView.separated(
+                                    padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: mode.length,
+                                    separatorBuilder: (_, __) =>
+                                        SizedBox(height: 10.0),
+                                    itemBuilder: (context, modeIndex) {
+                                      final modeItem = mode[modeIndex];
+                                      return InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          FFAppState().mode = modeItem;
+                                          FFAppState().update(() {});
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: getJsonField(
+                                                      modeItem,
+                                                      r'''$.id''',
+                                                    ) ==
+                                                    getJsonField(
+                                                      FFAppState().mode,
+                                                      r'''$.id''',
+                                                    )
+                                                ? FlutterFlowTheme.of(context)
+                                                    .accent1
+                                                : Color(0x00000000),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(5.0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                ModeImgWidget(
+                                                  key: Key(
+                                                      'Keyg2l_${modeIndex}_of_${mode.length}'),
+                                                  mode: getJsonField(
+                                                    modeItem,
+                                                    r'''$.type''',
+                                                  ).toString(),
+                                                  width: 40.0,
+                                                  height: 40.0,
+                                                ),
+                                                Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      getJsonField(
+                                                        modeItem,
+                                                        r'''$.phone''',
+                                                      ).toString(),
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'DM Sans',
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primaryText,
+                                                            fontSize: 16.0,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FontWeight.w800,
+                                                          ),
+                                                    ),
+                                                    Text(
+                                                      getJsonField(
+                                                        modeItem,
+                                                        r'''$.type''',
+                                                      ).toString(),
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'DM Sans',
+                                                            letterSpacing: 0.0,
+                                                          ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ].divide(SizedBox(width: 10.0)),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ].divide(SizedBox(height: 12.0)),
+                      ),
                     ),
                   ].divide(SizedBox(height: 10.0)),
                 ),
               ),
-              FFButtonWidget(
-                onPressed: () {
-                  print('Button pressed ...');
-                },
-                text: FFLocalizations.of(context).getText(
-                  'q7t93ab5' /* Sélectionner */,
-                ),
-                options: FFButtonOptions(
-                  width: double.infinity,
-                  height: 50.0,
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                  iconPadding:
-                      EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                  color: FlutterFlowTheme.of(context).primary,
-                  textStyle:
-                      FlutterFlowTheme.of(context).headlineSmall.override(
-                            fontFamily: 'DM Sans',
-                            color: FlutterFlowTheme.of(context).tertiary,
-                            fontSize: 16.0,
-                            letterSpacing: 0.0,
-                          ),
-                  elevation: 3.0,
-                  borderSide: BorderSide(
-                    color: Colors.transparent,
-                    width: 1.0,
+              if (false)
+                FFButtonWidget(
+                  onPressed: () {
+                    print('Button pressed ...');
+                  },
+                  text: FFLocalizations.of(context).getText(
+                    'q7t93ab5' /* Sélectionner */,
                   ),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ).animateOnPageLoad(animationsMap['buttonOnPageLoadAnimation']!),
+                  options: FFButtonOptions(
+                    width: double.infinity,
+                    height: 50.0,
+                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    iconPadding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    color: FlutterFlowTheme.of(context).primary,
+                    textStyle:
+                        FlutterFlowTheme.of(context).headlineSmall.override(
+                              fontFamily: 'DM Sans',
+                              color: FlutterFlowTheme.of(context).tertiary,
+                              fontSize: 16.0,
+                              letterSpacing: 0.0,
+                            ),
+                    elevation: 3.0,
+                    borderSide: BorderSide(
+                      color: Colors.transparent,
+                      width: 1.0,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ).animateOnPageLoad(
+                    animationsMap['buttonOnPageLoadAnimation']!),
             ].divide(SizedBox(height: 10.0)),
           ),
         ),

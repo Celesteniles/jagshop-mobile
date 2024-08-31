@@ -296,6 +296,7 @@ class APIJagShopGroup {
   static DeleteModePaiementsCall deleteModePaiementsCall =
       DeleteModePaiementsCall();
   static DeleteAddressCall deleteAddressCall = DeleteAddressCall();
+  static GetFeesCall getFeesCall = GetFeesCall();
 }
 
 class VerifyOTPCall {
@@ -598,6 +599,11 @@ class RegisterCall {
 
 class GetProductsCall {
   Future<ApiCallResponse> call({
+    String? query = '',
+    int? categoryId,
+    int? storeId,
+    String? minPrice = '',
+    String? maxPrice = '',
     String? accessToken = '',
   }) async {
     final baseUrl = APIJagShopGroup.getBaseUrl(
@@ -613,7 +619,13 @@ class GetProductsCall {
         'Accept': 'application/json',
         'Authorization': 'Bearer ${accessToken}',
       },
-      params: {},
+      params: {
+        'query': query,
+        'category_id': categoryId,
+        'store_id': storeId,
+        'min_price': minPrice,
+        'max_price': maxPrice,
+      },
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
@@ -1075,6 +1087,11 @@ class AddAddressCall {
     String? latitude = '',
     String? longitude = '',
     int? localiteId = 1,
+    String? type = '',
+    String? personneContact = '',
+    String? contactPersonneContact = '',
+    String? referenceAdd = '',
+    String? nomAdresse = '',
     String? accessToken = '',
   }) async {
     final baseUrl = APIJagShopGroup.getBaseUrl(
@@ -1095,6 +1112,11 @@ class AddAddressCall {
         'latitude': latitude,
         'longitude': longitude,
         'localite_id': localiteId,
+        'type': type,
+        'personne_contact': personneContact,
+        'contact_personne_contact': contactPersonneContact,
+        'reference': referenceAdd,
+        'nom_adresse': nomAdresse,
       },
       bodyType: BodyType.MULTIPART,
       returnBody: true,
@@ -1306,6 +1328,59 @@ class DeleteAddressCall {
   String? message(dynamic response) => castToType<String>(getJsonField(
         response,
         r'''$.message''',
+      ));
+}
+
+class GetFeesCall {
+  Future<ApiCallResponse> call({
+    String? accessToken = '',
+  }) async {
+    final baseUrl = APIJagShopGroup.getBaseUrl(
+      accessToken: accessToken,
+    );
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Get fees',
+      apiUrl: '${baseUrl}/fees',
+      callType: ApiCallType.GET,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${accessToken}',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  dynamic? data(dynamic response) => getJsonField(
+        response,
+        r'''$.data''',
+      );
+  double? total(dynamic response) => castToType<double>(getJsonField(
+        response,
+        r'''$.data.total''',
+      ));
+  double? subTotal(dynamic response) => castToType<double>(getJsonField(
+        response,
+        r'''$.data.subtotal''',
+      ));
+  double? delivery(dynamic response) => castToType<double>(getJsonField(
+        response,
+        r'''$.data.delivery''',
+      ));
+  double? vat(dynamic response) => castToType<double>(getJsonField(
+        response,
+        r'''$.data.vat''',
+      ));
+  double? reduce(dynamic response) => castToType<double>(getJsonField(
+        response,
+        r'''$.data.reduce''',
       ));
 }
 

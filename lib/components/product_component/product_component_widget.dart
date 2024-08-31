@@ -116,72 +116,69 @@ class _ProductComponentWidgetState extends State<ProductComponentWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: FlutterFlowIconButton(
-                  borderRadius: 20.0,
-                  icon: Icon(
-                    Icons.favorite_border,
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                    size: 24.0,
-                  ),
-                  showLoadingIndicator: true,
-                  onPressed: () async {
-                    var _shouldSetState = false;
-                    _model.apiResultesy =
-                        await APIJagShopGroup.addToFavoritesCall.call(
-                      productId: getJsonField(
-                        widget!.productJson,
-                        r'''$.id''',
-                      ),
-                      accessToken: FFAppState().accessToken,
-                    );
+              FlutterFlowIconButton(
+                borderRadius: 20.0,
+                icon: Icon(
+                  Icons.favorite_border,
+                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                  size: 24.0,
+                ),
+                showLoadingIndicator: true,
+                onPressed: () async {
+                  var _shouldSetState = false;
+                  _model.apiResultesy =
+                      await APIJagShopGroup.addToFavoritesCall.call(
+                    productId: getJsonField(
+                      widget!.productJson,
+                      r'''$.id''',
+                    ),
+                    accessToken: FFAppState().accessToken,
+                  );
 
-                    _shouldSetState = true;
-                    if ((_model.apiResultesy?.succeeded ?? true)) {
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
+                  _shouldSetState = true;
+                  if ((_model.apiResultesy?.succeeded ?? true)) {
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          APIJagShopGroup.addToFavoritesCall.message(
+                            (_model.apiResultesy?.jsonBody ?? ''),
+                          )!,
+                          style: TextStyle(
+                            color: FlutterFlowTheme.of(context).primaryText,
+                          ),
+                        ),
+                        duration: Duration(milliseconds: 4000),
+                        backgroundColor: FlutterFlowTheme.of(context).success,
+                      ),
+                    );
+                    if (_shouldSetState) setState(() {});
+                    return;
+                  } else {
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          valueOrDefault<String>(
                             APIJagShopGroup.addToFavoritesCall.message(
                               (_model.apiResultesy?.jsonBody ?? ''),
-                            )!,
-                            style: TextStyle(
-                              color: FlutterFlowTheme.of(context).primaryText,
                             ),
+                            'Quelque chose ne s\'est pas bien passée.',
                           ),
-                          duration: Duration(milliseconds: 4000),
-                          backgroundColor: FlutterFlowTheme.of(context).success,
-                        ),
-                      );
-                      if (_shouldSetState) setState(() {});
-                      return;
-                    } else {
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            valueOrDefault<String>(
-                              APIJagShopGroup.addToFavoritesCall.message(
-                                (_model.apiResultesy?.jsonBody ?? ''),
-                              ),
-                              'Quelque chose ne s\'est pas bien passée.',
-                            ),
-                            style: TextStyle(
-                              color: FlutterFlowTheme.of(context).primaryText,
-                            ),
+                          style: TextStyle(
+                            color: FlutterFlowTheme.of(context).primaryText,
                           ),
-                          duration: Duration(milliseconds: 4000),
-                          backgroundColor: FlutterFlowTheme.of(context).error,
                         ),
-                      );
-                      if (_shouldSetState) setState(() {});
-                      return;
-                    }
-
+                        duration: Duration(milliseconds: 4000),
+                        backgroundColor: FlutterFlowTheme.of(context).error,
+                      ),
+                    );
                     if (_shouldSetState) setState(() {});
-                  },
-                ),
+                    return;
+                  }
+
+                  if (_shouldSetState) setState(() {});
+                },
               ),
             ],
           ),

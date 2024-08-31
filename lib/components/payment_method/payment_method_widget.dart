@@ -191,11 +191,8 @@ class _PaymentMethodWidgetState extends State<PaymentMethodWidget> {
                                       .titleSmall
                                       .override(
                                         fontFamily: 'DM Sans',
-                                        color: _model.method == 'mobile'
-                                            ? FlutterFlowTheme.of(context)
-                                                .primary
-                                            : FlutterFlowTheme.of(context)
-                                                .primary,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
                                         fontSize: 14.0,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.w800,
@@ -211,7 +208,7 @@ class _PaymentMethodWidgetState extends State<PaymentMethodWidget> {
                             Expanded(
                               child: FFButtonWidget(
                                 onPressed: () async {
-                                  _model.method = 'mobile';
+                                  _model.method = 'nokipay';
                                   setState(() {});
                                 },
                                 text: FFLocalizations.of(context).getText(
@@ -222,18 +219,15 @@ class _PaymentMethodWidgetState extends State<PaymentMethodWidget> {
                                       0.0, 10.0, 0.0, 10.0),
                                   iconPadding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
-                                  color: _model.method == 'mobile'
+                                  color: _model.method == 'nokipay'
                                       ? FlutterFlowTheme.of(context).info
                                       : FlutterFlowTheme.of(context).alternate,
                                   textStyle: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .override(
                                         fontFamily: 'DM Sans',
-                                        color: _model.method == 'nokipay'
-                                            ? FlutterFlowTheme.of(context)
-                                                .primary
-                                            : FlutterFlowTheme.of(context)
-                                                .primary,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
                                         fontSize: 14.0,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.w800,
@@ -348,6 +342,11 @@ class _PaymentMethodWidgetState extends State<PaymentMethodWidget> {
                         backgroundColor: FlutterFlowTheme.of(context).success,
                       ),
                     );
+                    FFAppState().mode =
+                        APIJagShopGroup.addModePaiementCall.data(
+                      (_model.apiResult4j7?.jsonBody ?? ''),
+                    );
+                    FFAppState().update(() {});
                     Navigator.pop(context);
                     if (_shouldSetState) setState(() {});
                     return;

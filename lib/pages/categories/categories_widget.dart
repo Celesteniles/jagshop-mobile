@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +35,8 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).backgroundColor,
@@ -52,7 +55,61 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
                 fontWeight: FontWeight.bold,
               ),
         ),
-        actions: [],
+        actions: [
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              InkWell(
+                splashColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: () async {
+                  context.pushNamed('searchPage');
+                },
+                child: Icon(
+                  Icons.search_rounded,
+                  color: FlutterFlowTheme.of(context).primaryText,
+                  size: 32.0,
+                ),
+              ),
+              InkWell(
+                splashColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: () async {
+                  context.pushNamed('Cart');
+                },
+                child: badges.Badge(
+                  badgeContent: Text(
+                    FFAppState().cart.toString(),
+                    textAlign: TextAlign.center,
+                    style: FlutterFlowTheme.of(context).titleSmall.override(
+                          fontFamily: 'DM Sans',
+                          color: Colors.white,
+                          fontSize: 10.0,
+                          letterSpacing: 0.0,
+                        ),
+                  ),
+                  showBadge: FFAppState().cart.toString() != '0',
+                  shape: badges.BadgeShape.circle,
+                  badgeColor: FlutterFlowTheme.of(context).secondary,
+                  elevation: 4.0,
+                  padding: EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+                  position: badges.BadgePosition.topStart(),
+                  animationType: badges.BadgeAnimationType.scale,
+                  toAnimate: true,
+                  child: Icon(
+                    Icons.shopping_cart_outlined,
+                    color: FlutterFlowTheme.of(context).primaryText,
+                    size: 32.0,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
         centerTitle: false,
         elevation: 0.0,
       ),

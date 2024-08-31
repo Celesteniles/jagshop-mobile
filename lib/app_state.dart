@@ -68,6 +68,37 @@ class FFAppState extends ChangeNotifier {
           }).toList() ??
           _carts;
     });
+    await _safeInitAsync(() async {
+      if (await secureStorage.read(key: 'ff_adresse') != null) {
+        try {
+          _adresse =
+              jsonDecode(await secureStorage.getString('ff_adresse') ?? '');
+        } catch (e) {
+          print("Can't decode persisted json. Error: $e.");
+        }
+      }
+    });
+    await _safeInitAsync(() async {
+      _favorites =
+          (await secureStorage.getStringList('ff_favorites'))?.map((x) {
+                try {
+                  return jsonDecode(x);
+                } catch (e) {
+                  print("Can't decode persisted json. Error: $e.");
+                  return {};
+                }
+              }).toList() ??
+              _favorites;
+    });
+    await _safeInitAsync(() async {
+      if (await secureStorage.read(key: 'ff_mode') != null) {
+        try {
+          _mode = jsonDecode(await secureStorage.getString('ff_mode') ?? '');
+        } catch (e) {
+          print("Can't decode persisted json. Error: $e.");
+        }
+      }
+    });
   }
 
   void update(VoidCallback callback) {
@@ -216,6 +247,73 @@ class FFAppState extends ChangeNotifier {
         'ff_carts', _carts.map((x) => jsonEncode(x)).toList());
   }
 
+  dynamic _adresse;
+  dynamic get adresse => _adresse;
+  set adresse(dynamic value) {
+    _adresse = value;
+    secureStorage.setString('ff_adresse', jsonEncode(value));
+  }
+
+  void deleteAdresse() {
+    secureStorage.delete(key: 'ff_adresse');
+  }
+
+  List<dynamic> _favorites = [];
+  List<dynamic> get favorites => _favorites;
+  set favorites(List<dynamic> value) {
+    _favorites = value;
+    secureStorage.setStringList(
+        'ff_favorites', value.map((x) => jsonEncode(x)).toList());
+  }
+
+  void deleteFavorites() {
+    secureStorage.delete(key: 'ff_favorites');
+  }
+
+  void addToFavorites(dynamic value) {
+    favorites.add(value);
+    secureStorage.setStringList(
+        'ff_favorites', _favorites.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeFromFavorites(dynamic value) {
+    favorites.remove(value);
+    secureStorage.setStringList(
+        'ff_favorites', _favorites.map((x) => jsonEncode(x)).toList());
+  }
+
+  void removeAtIndexFromFavorites(int index) {
+    favorites.removeAt(index);
+    secureStorage.setStringList(
+        'ff_favorites', _favorites.map((x) => jsonEncode(x)).toList());
+  }
+
+  void updateFavoritesAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    favorites[index] = updateFn(_favorites[index]);
+    secureStorage.setStringList(
+        'ff_favorites', _favorites.map((x) => jsonEncode(x)).toList());
+  }
+
+  void insertAtIndexInFavorites(int index, dynamic value) {
+    favorites.insert(index, value);
+    secureStorage.setStringList(
+        'ff_favorites', _favorites.map((x) => jsonEncode(x)).toList());
+  }
+
+  dynamic _mode;
+  dynamic get mode => _mode;
+  set mode(dynamic value) {
+    _mode = value;
+    secureStorage.setString('ff_mode', jsonEncode(value));
+  }
+
+  void deleteMode() {
+    secureStorage.delete(key: 'ff_mode');
+  }
+
   final _adsManager = FutureRequestManager<ApiCallResponse>();
   Future<ApiCallResponse> ads({
     String? uniqueQueryKey,
@@ -230,6 +328,36 @@ class FFAppState extends ChangeNotifier {
   void clearAdsCache() => _adsManager.clear();
   void clearAdsCacheKey(String? uniqueKey) =>
       _adsManager.clearRequest(uniqueKey);
+
+  final _addressesManager = FutureRequestManager<ApiCallResponse>();
+  Future<ApiCallResponse> addresses({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<ApiCallResponse> Function() requestFn,
+  }) =>
+      _addressesManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearAddressesCache() => _addressesManager.clear();
+  void clearAddressesCacheKey(String? uniqueKey) =>
+      _addressesManager.clearRequest(uniqueKey);
+
+  final _modePaiementsManager = FutureRequestManager<ApiCallResponse>();
+  Future<ApiCallResponse> modePaiements({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<ApiCallResponse> Function() requestFn,
+  }) =>
+      _modePaiementsManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearModePaiementsCache() => _modePaiementsManager.clear();
+  void clearModePaiementsCacheKey(String? uniqueKey) =>
+      _modePaiementsManager.clearRequest(uniqueKey);
 }
 
 void _safeInit(Function() initializeField) {

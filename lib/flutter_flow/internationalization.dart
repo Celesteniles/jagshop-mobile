@@ -115,22 +115,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'fr': 'Rechercher',
       'en': 'To research',
     },
-    '1tsdg3g7': {
-      'fr': 'JAG Shop',
-      'en': '',
-    },
-    '4wu567c6': {
-      'fr': 'Hello World',
-      'en': '',
-    },
-    'u95pc3f0': {
-      'fr': 'JAG Shop',
-      'en': '',
-    },
-    'e75q1vmh': {
-      'fr': 'JAG Shop',
-      'en': '',
-    },
     'bvib99uy': {
       'fr': 'Rechercher',
       'en': '',
@@ -526,6 +510,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   },
   // Cart
   {
+    '30jxkyb6': {
+      'fr': 'Ajoutez d\'autres articles',
+      'en': '',
+    },
     'xig9vt1k': {
       'fr': 'SOUS-TOTAL',
       'en': '',
@@ -580,6 +568,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'fr': 'Choisir une méthode de paiement',
       'en': '',
     },
+    'htaskg2g': {
+      'fr': 'Adresse de livraison',
+      'en': '',
+    },
+    'xoqukcp3': {
+      'fr': 'Choisir une adresse de livraison',
+      'en': '',
+    },
     'usnwf5bo': {
       'fr': 'Résumé de la commande',
       'en': '',
@@ -597,7 +593,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'zc9topn8': {
-      'fr': 'TVA / Taxe (0.08%)',
+      'fr': 'TVA / Taxe',
       'en': '',
     },
     '2rv3xs7x': {
@@ -761,7 +757,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'fr': 'Ajouter un nouveau de paiement',
       'en': '',
     },
-    'fua6c037': {
+    'rq5rgvpn': {
       'fr': 'Mode de paiement',
       'en': '',
     },
@@ -926,6 +922,26 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'oi5gdrcv': {
+      'fr': 'Home',
+      'en': '',
+    },
+  },
+  // AdressePage
+  {
+    'ln6aadam': {
+      'fr':
+          'Enregistrez votre mode de paiement pour faciliter vos transactions.',
+      'en': '',
+    },
+    'zsvhq0nm': {
+      'fr': 'Ajouter un nouveau de paiement',
+      'en': '',
+    },
+    'h3v72cwx': {
+      'fr': 'Adresse',
+      'en': '',
+    },
+    '5l1u6jqx': {
       'fr': 'Home',
       'en': '',
     },
@@ -1113,14 +1129,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
           'Actuellement, nous acceptons uniquement les paiements via Mobile Money et NokiPay',
       'en': '',
     },
-    't0vtn7ct': {
-      'fr': 'Hello World',
-      'en': '',
-    },
-    '2opxfgd9': {
-      'fr': 'mathode',
-      'en': '',
-    },
     'q7t93ab5': {
       'fr': 'Sélectionner',
       'en': 'Submit Review',
@@ -1162,6 +1170,87 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'k9sm2pyc': {
       'fr': 'Non, Utiliser un autre numéro',
+      'en': '',
+    },
+  },
+  // AdresseLivraison
+  {
+    'r9xm1grk': {
+      'fr': 'Sélectionnez une adresse de livraison',
+      'en': '',
+    },
+    'a5vhudv1': {
+      'fr': 'Ajouter une autre adresse',
+      'en': '',
+    },
+  },
+  // AdresseComponent
+  {
+    'i9v4vjbk': {
+      'fr': 'Nouvelle adresse',
+      'en': '',
+    },
+    'st2o50i4': {
+      'fr': 'Créez une nouvelle adresse',
+      'en': '',
+    },
+    '3q37ittg': {
+      'fr': 'Pour moi',
+      'en': '',
+    },
+    'qntfn1jx': {
+      'fr': 'Pour autrui',
+      'en': '',
+    },
+    '2jahw9op': {
+      'fr': 'Ex : Mon domicile, Tante Suzane, Bureau, etc.',
+      'en': '',
+    },
+    'k9t2t1kv': {
+      'fr': 'Adresse',
+      'en': '',
+    },
+    '47lzrfdz': {
+      'fr': 'Exemple : 5ème niveau appartement 2A (facultatif)',
+      'en': '',
+    },
+    'oadetrw4': {
+      'fr': 'Référence',
+      'en': '',
+    },
+    '6py4w9nm': {
+      'fr': 'Informations sur la personne de contact',
+      'en': '',
+    },
+    'ehymkmpc': {
+      'fr': 'Moi-même',
+      'en': '',
+    },
+    'cpbxv2kq': {
+      'fr': 'Quelqu\'un d\'autre',
+      'en': '',
+    },
+    'iruvvw59': {
+      'fr': 'Nom complet',
+      'en': '',
+    },
+    '6miw8n9z': {
+      'fr': 'Téléphone',
+      'en': '',
+    },
+    '9o3cyrq5': {
+      'fr': 'Ajouter',
+      'en': '',
+    },
+  },
+  // EmptyMode
+  {
+    'eweet18m': {
+      'fr': 'Aucun mode de paiement trouvé',
+      'en': '',
+    },
+    'pc6xee6f': {
+      'fr': 'Ajouter un mode de paiament',
       'en': '',
     },
   },

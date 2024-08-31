@@ -1,14 +1,11 @@
 import '/backend/api_requests/api_calls.dart';
-import '/flutter_flow/flutter_flow_animations.dart';
+import '/components/skeleton_list_component_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:math';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -22,44 +19,15 @@ class CartWidget extends StatefulWidget {
   State<CartWidget> createState() => _CartWidgetState();
 }
 
-class _CartWidgetState extends State<CartWidget> with TickerProviderStateMixin {
+class _CartWidgetState extends State<CartWidget> {
   late CartModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  final animationsMap = <String, AnimationInfo>{};
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => CartModel());
-
-    animationsMap.addAll({
-      'containerOnPageLoadAnimation1': AnimationInfo(
-        trigger: AnimationTrigger.onPageLoad,
-        effectsBuilder: () => [
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: Offset(12.000000000000014, 0.0),
-            end: Offset(0.0, 0.0),
-          ),
-        ],
-      ),
-      'containerOnPageLoadAnimation2': AnimationInfo(
-        trigger: AnimationTrigger.onPageLoad,
-        effectsBuilder: () => [
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: Offset(0.0, 33.0),
-            end: Offset(0.0, 0.0),
-          ),
-        ],
-      ),
-    });
   }
 
   @override
@@ -82,16 +50,10 @@ class _CartWidgetState extends State<CartWidget> with TickerProviderStateMixin {
         if (!snapshot.hasData) {
           return Scaffold(
             backgroundColor: FlutterFlowTheme.of(context).backgroundColor,
-            body: Center(
-              child: SizedBox(
-                width: 50.0,
-                height: 50.0,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    FlutterFlowTheme.of(context).primary,
-                  ),
-                ),
-              ),
+            body: Container(
+              width: double.infinity,
+              height: double.infinity,
+              child: SkeletonListComponentWidget(),
             ),
           );
         }
@@ -132,294 +94,307 @@ class _CartWidgetState extends State<CartWidget> with TickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: Builder(
-                            builder: (context) {
-                              final cartItem = APIJagShopGroup.getCartCall
-                                      .items(
-                                        cartGetCartResponse.jsonBody,
-                                      )
-                                      ?.toList() ??
-                                  [];
-
-                              return SingleChildScrollView(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: List.generate(cartItem.length,
-                                          (cartItemIndex) {
-                                    final cartItemItem =
-                                        cartItem[cartItemIndex];
-                                    return Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          10.0, 0.0, 10.0, 0.0),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: FlutterFlowTheme.of(context)
-                                              .cardColor,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              blurRadius: 10.0,
-                                              color: Color(0x204D4D4D),
-                                              offset: Offset(
-                                                2.0,
-                                                1.0,
-                                              ),
-                                              spreadRadius: 1.0,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Builder(
+                                  builder: (context) {
+                                    final cartItem = APIJagShopGroup.getCartCall
+                                            .items(
+                                              cartGetCartResponse.jsonBody,
                                             )
-                                          ],
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.all(12.0),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                                child: Container(
-                                                  width: 45.0,
-                                                  height: 45.0,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
+                                            ?.toList() ??
+                                        [];
+
+                                    return Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: List.generate(cartItem.length,
+                                              (cartItemIndex) {
+                                        final cartItemItem =
+                                            cartItem[cartItemIndex];
+                                        return Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  10.0, 0.0, 10.0, 0.0),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .cardColor,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  blurRadius: 10.0,
+                                                  color: Color(0x204D4D4D),
+                                                  offset: Offset(
+                                                    2.0,
+                                                    1.0,
+                                                  ),
+                                                  spreadRadius: 1.0,
+                                                )
+                                              ],
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(12.0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  ClipRRect(
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10.0),
-                                                  ),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0),
-                                                    child: Image.network(
-                                                      getJsonField(
-                                                        cartItemItem,
-                                                        r'''$.product.image''',
-                                                      ).toString(),
-                                                      width: 150.0,
-                                                      height: 150.0,
-                                                      fit: BoxFit.cover,
-                                                      errorBuilder: (context,
-                                                              error,
-                                                              stackTrace) =>
-                                                          Image.asset(
-                                                        'assets/images/error_image.png',
-                                                        width: 150.0,
-                                                        height: 150.0,
-                                                        fit: BoxFit.cover,
+                                                    child: Container(
+                                                      width: 45.0,
+                                                      height: 45.0,
+                                                      decoration: BoxDecoration(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.0),
                                                       ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      getJsonField(
-                                                        cartItemItem,
-                                                        r'''$.product.name''',
-                                                      ).toString(),
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyLarge
-                                                          .override(
-                                                            fontFamily:
-                                                                'DM Sans',
-                                                            fontSize: 16.0,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                          ),
-                                                    ),
-                                                    Text(
-                                                      formatNumber(
-                                                        functions.toDouble(
-                                                            getJsonField(
-                                                          cartItemItem,
-                                                          r'''$.product.sale_price''',
-                                                        ).toString()),
-                                                        formatType:
-                                                            FormatType.decimal,
-                                                        decimalType: DecimalType
-                                                            .automatic,
-                                                        currency: 'XAF ',
-                                                      ),
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'DM Sans',
-                                                            letterSpacing: 0.0,
-                                                          ),
-                                                    ),
-                                                  ].divide(
-                                                      SizedBox(height: 5.0)),
-                                                ),
-                                              ),
-                                              Builder(
-                                                builder: (context) {
-                                                  if (false) {
-                                                    return FlutterFlowIconButton(
-                                                      borderColor:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .error,
-                                                      borderRadius: 20.0,
-                                                      borderWidth: 1.0,
-                                                      buttonSize: 30.0,
-                                                      fillColor:
-                                                          Color(0x65E21C3D),
-                                                      icon: Icon(
-                                                        Icons.remove_rounded,
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                        size: 14.0,
-                                                      ),
-                                                      showLoadingIndicator:
-                                                          true,
-                                                      onPressed: () {
-                                                        print(
-                                                            'IconButton pressed ...');
-                                                      },
-                                                    );
-                                                  } else {
-                                                    return FlutterFlowIconButton(
-                                                      borderRadius: 20.0,
-                                                      borderWidth: 1.0,
-                                                      buttonSize: 30.0,
-                                                      fillColor:
-                                                          Color(0x65E21C3D),
-                                                      icon: FaIcon(
-                                                        FontAwesomeIcons.trash,
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                        size: 14.0,
-                                                      ),
-                                                      showLoadingIndicator:
-                                                          true,
-                                                      onPressed: () async {
-                                                        var _shouldSetState =
-                                                            false;
-                                                        _model.apiResulta89 =
-                                                            await APIJagShopGroup
-                                                                .removeItemsToCartCall
-                                                                .call(
-                                                          cartItemId:
-                                                              getJsonField(
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                        child: Image.network(
+                                                          getJsonField(
                                                             cartItemItem,
-                                                            r'''$.id''',
+                                                            r'''$.product.image''',
+                                                          ).toString(),
+                                                          width: 150.0,
+                                                          height: 150.0,
+                                                          fit: BoxFit.cover,
+                                                          errorBuilder: (context,
+                                                                  error,
+                                                                  stackTrace) =>
+                                                              Image.asset(
+                                                            'assets/images/error_image.png',
+                                                            width: 150.0,
+                                                            height: 150.0,
+                                                            fit: BoxFit.cover,
                                                           ),
-                                                          accessToken:
-                                                              FFAppState()
-                                                                  .accessToken,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          getJsonField(
+                                                            cartItemItem,
+                                                            r'''$.product.name''',
+                                                          ).toString(),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyLarge
+                                                              .override(
+                                                                fontFamily:
+                                                                    'DM Sans',
+                                                                fontSize: 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                        ),
+                                                        Text(
+                                                          formatNumber(
+                                                            functions.toDouble(
+                                                                getJsonField(
+                                                              cartItemItem,
+                                                              r'''$.product.sale_price''',
+                                                            ).toString()),
+                                                            formatType:
+                                                                FormatType
+                                                                    .decimal,
+                                                            decimalType:
+                                                                DecimalType
+                                                                    .automatic,
+                                                            currency: 'XAF ',
+                                                          ),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'DM Sans',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
+                                                        ),
+                                                      ].divide(SizedBox(
+                                                          height: 5.0)),
+                                                    ),
+                                                  ),
+                                                  Builder(
+                                                    builder: (context) {
+                                                      if (false) {
+                                                        return FlutterFlowIconButton(
+                                                          borderColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .error,
+                                                          borderRadius: 20.0,
+                                                          borderWidth: 1.0,
+                                                          buttonSize: 30.0,
+                                                          fillColor:
+                                                              Color(0x65E21C3D),
+                                                          icon: Icon(
+                                                            Icons
+                                                                .remove_rounded,
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .error,
+                                                            size: 14.0,
+                                                          ),
+                                                          showLoadingIndicator:
+                                                              true,
+                                                          onPressed: () {
+                                                            print(
+                                                                'IconButton pressed ...');
+                                                          },
                                                         );
-
-                                                        _shouldSetState = true;
-                                                        if ((_model.apiResulta89
-                                                                ?.succeeded ??
-                                                            true)) {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .clearSnackBars();
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(
-                                                                APIJagShopGroup
+                                                      } else {
+                                                        return FlutterFlowIconButton(
+                                                          borderRadius: 20.0,
+                                                          borderWidth: 1.0,
+                                                          buttonSize: 30.0,
+                                                          fillColor:
+                                                              Color(0x65E21C3D),
+                                                          icon: FaIcon(
+                                                            FontAwesomeIcons
+                                                                .trash,
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .error,
+                                                            size: 14.0,
+                                                          ),
+                                                          showLoadingIndicator:
+                                                              true,
+                                                          onPressed: () async {
+                                                            var _shouldSetState =
+                                                                false;
+                                                            _model.apiResulta89 =
+                                                                await APIJagShopGroup
                                                                     .removeItemsToCartCall
-                                                                    .message(
-                                                                  (_model.apiResulta89
-                                                                          ?.jsonBody ??
-                                                                      ''),
-                                                                )!,
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primaryText,
-                                                                ),
+                                                                    .call(
+                                                              cartItemId:
+                                                                  getJsonField(
+                                                                cartItemItem,
+                                                                r'''$.id''',
                                                               ),
-                                                              duration: Duration(
-                                                                  milliseconds:
-                                                                      4000),
-                                                              backgroundColor:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .success,
-                                                            ),
-                                                          );
-                                                          if (_shouldSetState)
-                                                            setState(() {});
-                                                          return;
-                                                        } else {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .clearSnackBars();
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(
-                                                                valueOrDefault<
-                                                                    String>(
-                                                                  APIJagShopGroup
-                                                                      .removeItemsToCartCall
-                                                                      .message(
-                                                                    (_model.apiResulta89
-                                                                            ?.jsonBody ??
-                                                                        ''),
-                                                                  ),
-                                                                  'Quelque chose ne s\'est pas bien passée.',
-                                                                ),
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primaryText,
-                                                                ),
-                                                              ),
-                                                              duration: Duration(
-                                                                  milliseconds:
-                                                                      4000),
-                                                              backgroundColor:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .error,
-                                                            ),
-                                                          );
-                                                          if (_shouldSetState)
-                                                            setState(() {});
-                                                          return;
-                                                        }
+                                                              accessToken:
+                                                                  FFAppState()
+                                                                      .accessToken,
+                                                            );
 
-                                                        if (_shouldSetState)
-                                                          setState(() {});
-                                                      },
-                                                    );
-                                                  }
-                                                },
-                                              ),
-                                              Text(
-                                                getJsonField(
-                                                  cartItemItem,
-                                                  r'''$.quantity''',
-                                                ).toString(),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
+                                                            _shouldSetState =
+                                                                true;
+                                                            if ((_model
+                                                                    .apiResulta89
+                                                                    ?.succeeded ??
+                                                                true)) {
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .clearSnackBars();
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .showSnackBar(
+                                                                SnackBar(
+                                                                  content: Text(
+                                                                    APIJagShopGroup
+                                                                        .removeItemsToCartCall
+                                                                        .message(
+                                                                      (_model.apiResulta89
+                                                                              ?.jsonBody ??
+                                                                          ''),
+                                                                    )!,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primaryText,
+                                                                    ),
+                                                                  ),
+                                                                  duration: Duration(
+                                                                      milliseconds:
+                                                                          4000),
+                                                                  backgroundColor:
+                                                                      FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .success,
+                                                                ),
+                                                              );
+                                                              if (_shouldSetState)
+                                                                setState(() {});
+                                                              return;
+                                                            } else {
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .clearSnackBars();
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .showSnackBar(
+                                                                SnackBar(
+                                                                  content: Text(
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                                      APIJagShopGroup
+                                                                          .removeItemsToCartCall
+                                                                          .message(
+                                                                        (_model.apiResulta89?.jsonBody ??
+                                                                            ''),
+                                                                      ),
+                                                                      'Quelque chose ne s\'est pas bien passée.',
+                                                                    ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primaryText,
+                                                                    ),
+                                                                  ),
+                                                                  duration: Duration(
+                                                                      milliseconds:
+                                                                          4000),
+                                                                  backgroundColor:
+                                                                      FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .error,
+                                                                ),
+                                                              );
+                                                              if (_shouldSetState)
+                                                                setState(() {});
+                                                              return;
+                                                            }
+
+                                                            if (_shouldSetState)
+                                                              setState(() {});
+                                                          },
+                                                        );
+                                                      }
+                                                    },
+                                                  ),
+                                                  Text(
+                                                    getJsonField(
+                                                      cartItemItem,
+                                                      r'''$.quantity''',
+                                                    ).toString(),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'DM Sans',
@@ -431,129 +406,183 @@ class _CartWidgetState extends State<CartWidget> with TickerProviderStateMixin {
                                                           fontWeight:
                                                               FontWeight.bold,
                                                         ),
-                                              ),
-                                              FlutterFlowIconButton(
-                                                borderRadius: 20.0,
-                                                borderWidth: 1.0,
-                                                buttonSize: 30.0,
-                                                fillColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .accent1,
-                                                icon: Icon(
-                                                  Icons.add,
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryText,
-                                                  size: 14.0,
-                                                ),
-                                                showLoadingIndicator: true,
-                                                onPressed: () async {
-                                                  var _shouldSetState = false;
-                                                  _model.apiResultmry =
-                                                      await APIJagShopGroup
-                                                          .addItemsToCartCall
-                                                          .call(
-                                                    productId: getJsonField(
-                                                      cartItemItem,
-                                                      r'''$.product.id''',
+                                                  ),
+                                                  FlutterFlowIconButton(
+                                                    borderRadius: 20.0,
+                                                    borderWidth: 1.0,
+                                                    buttonSize: 30.0,
+                                                    fillColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .accent1,
+                                                    icon: Icon(
+                                                      Icons.add,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
+                                                      size: 14.0,
                                                     ),
-                                                    accessToken: FFAppState()
-                                                        .accessToken,
-                                                  );
-
-                                                  _shouldSetState = true;
-                                                  if ((_model.apiResultmry
-                                                          ?.succeeded ??
-                                                      true)) {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .clearSnackBars();
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(
-                                                          APIJagShopGroup
+                                                    showLoadingIndicator: true,
+                                                    onPressed: () async {
+                                                      var _shouldSetState =
+                                                          false;
+                                                      _model.apiResultmry =
+                                                          await APIJagShopGroup
                                                               .addItemsToCartCall
-                                                              .message(
-                                                            (_model.apiResultmry
-                                                                    ?.jsonBody ??
-                                                                ''),
-                                                          )!,
-                                                          style: TextStyle(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primaryText,
-                                                          ),
+                                                              .call(
+                                                        productId: getJsonField(
+                                                          cartItemItem,
+                                                          r'''$.product.id''',
                                                         ),
-                                                        duration: Duration(
-                                                            milliseconds: 4000),
-                                                        backgroundColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .success,
-                                                      ),
-                                                    );
-                                                    if (_shouldSetState)
-                                                      setState(() {});
-                                                    return;
-                                                  } else {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(
-                                                          valueOrDefault<
-                                                              String>(
-                                                            APIJagShopGroup
-                                                                .addItemsToCartCall
-                                                                .message(
-                                                              (_model.apiResultmry
-                                                                      ?.jsonBody ??
-                                                                  ''),
-                                                            ),
-                                                            'Quelque chose ne s\'est pas bien passée.',
-                                                          ),
-                                                          style: TextStyle(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primaryText,
-                                                          ),
-                                                        ),
-                                                        duration: Duration(
-                                                            milliseconds: 4000),
-                                                        backgroundColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                      ),
-                                                    );
-                                                    if (_shouldSetState)
-                                                      setState(() {});
-                                                    return;
-                                                  }
+                                                        accessToken:
+                                                            FFAppState()
+                                                                .accessToken,
+                                                      );
 
-                                                  if (_shouldSetState)
-                                                    setState(() {});
-                                                },
+                                                      _shouldSetState = true;
+                                                      if ((_model.apiResultmry
+                                                              ?.succeeded ??
+                                                          true)) {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .clearSnackBars();
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                              APIJagShopGroup
+                                                                  .addItemsToCartCall
+                                                                  .message(
+                                                                (_model.apiResultmry
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                              )!,
+                                                              style: TextStyle(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                              ),
+                                                            ),
+                                                            duration: Duration(
+                                                                milliseconds:
+                                                                    4000),
+                                                            backgroundColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .success,
+                                                          ),
+                                                        );
+                                                        if (_shouldSetState)
+                                                          setState(() {});
+                                                        return;
+                                                      } else {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                              valueOrDefault<
+                                                                  String>(
+                                                                APIJagShopGroup
+                                                                    .addItemsToCartCall
+                                                                    .message(
+                                                                  (_model.apiResultmry
+                                                                          ?.jsonBody ??
+                                                                      ''),
+                                                                ),
+                                                                'Quelque chose ne s\'est pas bien passée.',
+                                                              ),
+                                                              style: TextStyle(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                              ),
+                                                            ),
+                                                            duration: Duration(
+                                                                milliseconds:
+                                                                    4000),
+                                                            backgroundColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .error,
+                                                          ),
+                                                        );
+                                                        if (_shouldSetState)
+                                                          setState(() {});
+                                                        return;
+                                                      }
+
+                                                      if (_shouldSetState)
+                                                        setState(() {});
+                                                    },
+                                                  ),
+                                                ].divide(SizedBox(width: 5.0)),
                                               ),
-                                            ].divide(SizedBox(width: 5.0)),
+                                            ),
                                           ),
-                                        ),
-                                      ).animateOnPageLoad(animationsMap[
-                                          'containerOnPageLoadAnimation1']!),
+                                        );
+                                      })
+                                          .divide(SizedBox(height: 12.0))
+                                          .around(SizedBox(height: 12.0)),
                                     );
-                                  })
-                                      .divide(SizedBox(height: 12.0))
-                                      .around(SizedBox(height: 12.0)),
+                                  },
                                 ),
-                              );
-                            },
+                                Divider(
+                                  thickness: 0.5,
+                                  indent: 15.0,
+                                  endIndent: 15.0,
+                                  color: FlutterFlowTheme.of(context).accent4,
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      15.0, 0.0, 15.0, 15.0),
+                                  child: InkWell(
+                                    splashColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onTap: () async {
+                                      context.pushNamed('searchPage');
+                                    },
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.add_circle_outline_outlined,
+                                          color:
+                                              FlutterFlowTheme.of(context).info,
+                                          size: 24.0,
+                                        ),
+                                        Text(
+                                          FFLocalizations.of(context).getText(
+                                            '30jxkyb6' /* Ajoutez d'autres articles */,
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'DM Sans',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .info,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                        ),
+                                      ].divide(SizedBox(width: 5.0)),
+                                    ),
+                                  ),
+                                ),
+                              ].divide(SizedBox(height: 10.0)),
+                            ),
                           ),
                         ),
                         Container(
                           width: double.infinity,
-                          height: 110.0,
+                          height: 125.0,
                           decoration: BoxDecoration(
                             color: FlutterFlowTheme.of(context).cardColor,
                             boxShadow: [
@@ -654,7 +683,7 @@ class _CartWidgetState extends State<CartWidget> with TickerProviderStateMixin {
                                             color: Colors.white,
                                             letterSpacing: 0.0,
                                           ),
-                                      elevation: 3.0,
+                                      elevation: 0.0,
                                       borderSide: BorderSide(
                                         color: Colors.transparent,
                                         width: 1.0,
@@ -666,8 +695,7 @@ class _CartWidgetState extends State<CartWidget> with TickerProviderStateMixin {
                               ],
                             ),
                           ),
-                        ).animateOnPageLoad(
-                            animationsMap['containerOnPageLoadAnimation2']!),
+                        ),
                       ],
                     );
                   } else {

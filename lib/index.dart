@@ -30,3 +30,4 @@ export '/auth/phone_verified_page/phone_verified_page_widget.dart'
     show PhoneVerifiedPageWidget;
 export '/pages/subpage/apropos_page/apropos_page_widget.dart'
     show AproposPageWidget;
+export '/adresse_page/adresse_page_widget.dart' show AdressePageWidget;

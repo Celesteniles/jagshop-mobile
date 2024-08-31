@@ -892,6 +892,7 @@ class _DetailsPageWidgetState extends State<DetailsPageWidget>
                           _shouldSetState = true;
                           if ((_model.apiResulthpg?.succeeded ?? true)) {
                             FFAppState().addToCarts(widget!.product!);
+                            FFAppState().cart = FFAppState().cart + 1;
                             setState(() {});
                             ScaffoldMessenger.of(context).clearSnackBars();
                             ScaffoldMessenger.of(context).showSnackBar(
