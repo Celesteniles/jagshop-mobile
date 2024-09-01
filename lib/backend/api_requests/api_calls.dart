@@ -479,6 +479,20 @@ class CheckUserCall {
         response,
         r'''$.user''',
       );
+  List? favorites(dynamic response) => getJsonField(
+        response,
+        r'''$.favorites''',
+        true,
+      ) as List?;
+  List? carts(dynamic response) => getJsonField(
+        response,
+        r'''$.carts''',
+        true,
+      ) as List?;
+  int? countCart(dynamic response) => castToType<int>(getJsonField(
+        response,
+        r'''$.count''',
+      ));
 }
 
 class LoginCall {
@@ -600,8 +614,8 @@ class RegisterCall {
 class GetProductsCall {
   Future<ApiCallResponse> call({
     String? query = '',
-    int? categoryId,
-    int? storeId,
+    String? categoryId = '',
+    String? storeId = '',
     String? minPrice = '',
     String? maxPrice = '',
     String? accessToken = '',

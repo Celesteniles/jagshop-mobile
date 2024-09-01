@@ -13,6 +13,8 @@ class ProductCardModel extends FlutterFlowModel<ProductCardWidget> {
 
   // Stores action output result for [Backend Call - API (Add to favorites)] action in IconButton widget.
   ApiCallResponse? apiResultesy;
+  // Stores action output result for [Backend Call - API (Remove from favorites)] action in IconButton widget.
+  ApiCallResponse? apiResultesC;
 
   @override
   void initState(BuildContext context) {}

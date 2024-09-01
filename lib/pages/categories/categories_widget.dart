@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -115,13 +116,121 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
       ),
       body: SafeArea(
         top: true,
-        child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(0.0, 2.0, 0.0, 0.0),
-          child: ListView(
-            padding: EdgeInsets.zero,
-            scrollDirection: Axis.vertical,
-            children: [],
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: FutureBuilder<ApiCallResponse>(
+                future: _model.categories(
+                  requestFn: () =>
+                      APIJagShopGroup.getProductsCategoriesCall.call(
+                    accessToken: FFAppState().accessToken,
+                  ),
+                ),
+                builder: (context, snapshot) {
+                  // Customize what your widget looks like when it's loading.
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: SizedBox(
+                        width: 50.0,
+                        height: 50.0,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            FlutterFlowTheme.of(context).primary,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  final gridViewGetProductsCategoriesResponse = snapshot.data!;
+
+                  return Builder(
+                    builder: (context) {
+                      final category = APIJagShopGroup.getProductsCategoriesCall
+                              .data(
+                                gridViewGetProductsCategoriesResponse.jsonBody,
+                              )
+                              ?.toList() ??
+                          [];
+
+                      return GridView.builder(
+                        padding: EdgeInsets.zero,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10.0,
+                          mainAxisSpacing: 10.0,
+                          childAspectRatio: 1.0,
+                        ),
+                        scrollDirection: Axis.vertical,
+                        itemCount: category.length,
+                        itemBuilder: (context, categoryIndex) {
+                          final categoryItem = category[categoryIndex];
+                          return InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              context.pushNamed(
+                                'CategoryPage',
+                                queryParameters: {
+                                  'category': serializeParam(
+                                    categoryItem,
+                                    ParamType.JSON,
+                                  ),
+                                }.withoutNulls,
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(),
+                              child: Padding(
+                                padding: EdgeInsets.all(15.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.asset(
+                                        Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? 'assets/images/JAG_SHOP_PNG_w.png'
+                                            : 'assets/images/JAG_SHOP_PNG.png',
+                                        width: 100.0,
+                                        height: 90.0,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Text(
+                                      getJsonField(
+                                        categoryItem,
+                                        r'''$.name''',
+                                      ).toString(),
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'DM Sans',
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                            fontSize: 14.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                    ),
+                                  ].divide(SizedBox(height: 5.0)),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

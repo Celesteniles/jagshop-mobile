@@ -1,4 +1,5 @@
 import '/backend/api_requests/api_calls.dart';
+import '/components/valid_cart_component_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
@@ -874,118 +875,131 @@ class _DetailsPageWidgetState extends State<DetailsPageWidget>
                     ),
                   ),
                   Expanded(
-                    child: FFButtonWidget(
-                      onPressed: () async {
-                        var _shouldSetState = false;
-                        if (functions.isSameStrore(
-                            FFAppState().carts.toList(), widget!.product!)) {
-                          _model.apiResulthpg =
-                              await APIJagShopGroup.addItemsToCartCall.call(
-                            productId: getJsonField(
-                              widget!.product,
-                              r'''$.id''',
-                            ),
-                            accessToken: FFAppState().accessToken,
-                            quantity: _model.countControllerValue,
-                          );
-
-                          _shouldSetState = true;
-                          if ((_model.apiResulthpg?.succeeded ?? true)) {
-                            FFAppState().addToCarts(widget!.product!);
-                            FFAppState().cart = FFAppState().cart + 1;
-                            setState(() {});
-                            ScaffoldMessenger.of(context).clearSnackBars();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  valueOrDefault<String>(
-                                    APIJagShopGroup.addItemsToCartCall.message(
-                                      (_model.apiResulthpg?.jsonBody ?? ''),
-                                    ),
-                                    'Article ajouté au panier avec succès !',
-                                  ),
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                  ),
-                                ),
-                                duration: Duration(milliseconds: 4000),
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).success,
+                    child: Builder(
+                      builder: (context) => FFButtonWidget(
+                        onPressed: () async {
+                          var _shouldSetState = false;
+                          if (functions.isSameStrore(
+                              FFAppState().carts.toList(), widget!.product!)) {
+                            _model.apiResulthpg =
+                                await APIJagShopGroup.addItemsToCartCall.call(
+                              productId: getJsonField(
+                                widget!.product,
+                                r'''$.id''',
                               ),
+                              accessToken: FFAppState().accessToken,
+                              quantity: _model.countControllerValue,
                             );
-                            if (Navigator.of(context).canPop()) {
-                              context.pop();
+
+                            _shouldSetState = true;
+                            if ((_model.apiResulthpg?.succeeded ?? true)) {
+                              FFAppState().addToCarts(widget!.product!);
+                              FFAppState().cart = FFAppState().cart + 1;
+                              setState(() {});
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    valueOrDefault<String>(
+                                      APIJagShopGroup.addItemsToCartCall
+                                          .message(
+                                        (_model.apiResulthpg?.jsonBody ?? ''),
+                                      ),
+                                      'Article ajouté au panier avec succès !',
+                                    ),
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).success,
+                                ),
+                              );
+                              if (Navigator.of(context).canPop()) {
+                                context.pop();
+                              }
+                              context.pushNamed('Cart');
+
+                              if (_shouldSetState) setState(() {});
+                              return;
+                            } else {
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    valueOrDefault<String>(
+                                      APIJagShopGroup.addItemsToCartCall
+                                          .message(
+                                        (_model.apiResulthpg?.jsonBody ?? ''),
+                                      ),
+                                      'Quelque chose ne s\'est pas bien passée.',
+                                    ),
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).error,
+                                ),
+                              );
+                              if (_shouldSetState) setState(() {});
+                              return;
                             }
-                            context.pushNamed('Cart');
-
-                            if (_shouldSetState) setState(() {});
-                            return;
                           } else {
-                            ScaffoldMessenger.of(context).clearSnackBars();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  valueOrDefault<String>(
-                                    APIJagShopGroup.addItemsToCartCall.message(
-                                      (_model.apiResulthpg?.jsonBody ?? ''),
+                            await showDialog(
+                              context: context,
+                              builder: (dialogContext) {
+                                return Dialog(
+                                  elevation: 0,
+                                  insetPadding: EdgeInsets.zero,
+                                  backgroundColor: Colors.transparent,
+                                  alignment: AlignmentDirectional(0.0, 0.0)
+                                      .resolve(Directionality.of(context)),
+                                  child: GestureDetector(
+                                    onTap: () =>
+                                        FocusScope.of(dialogContext).unfocus(),
+                                    child: Container(
+                                      height: 450.0,
+                                      width: double.infinity,
+                                      child: ValidCartComponentWidget(
+                                        productJson: widget!.product!,
+                                      ),
                                     ),
-                                    'Quelque chose ne s\'est pas bien passée.',
                                   ),
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                  ),
-                                ),
-                                duration: Duration(milliseconds: 4000),
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).error,
-                              ),
+                                );
+                              },
                             );
+
                             if (_shouldSetState) setState(() {});
                             return;
                           }
-                        } else {
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Pas la même boutique',
-                                style: TextStyle(
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                ),
-                              ),
-                              duration: Duration(milliseconds: 4000),
-                              backgroundColor:
-                                  FlutterFlowTheme.of(context).error,
-                            ),
-                          );
-                          if (_shouldSetState) setState(() {});
-                          return;
-                        }
 
-                        if (_shouldSetState) setState(() {});
-                      },
-                      text: FFLocalizations.of(context).getText(
-                        'hosve8gv' /* Ajouter au panier */,
-                      ),
-                      options: FFButtonOptions(
-                        width: double.infinity,
-                        height: 50.0,
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            24.0, 0.0, 24.0, 0.0),
-                        iconPadding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        color: FlutterFlowTheme.of(context).primary,
-                        textStyle:
-                            FlutterFlowTheme.of(context).titleSmall.override(
-                                  fontFamily: 'DM Sans',
-                                  color: Colors.white,
-                                  letterSpacing: 0.0,
-                                ),
-                        elevation: 0.0,
-                        borderRadius: BorderRadius.circular(0.0),
+                          if (_shouldSetState) setState(() {});
+                        },
+                        text: FFLocalizations.of(context).getText(
+                          'hosve8gv' /* Ajouter au panier */,
+                        ),
+                        options: FFButtonOptions(
+                          width: double.infinity,
+                          height: 50.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              24.0, 0.0, 24.0, 0.0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: FlutterFlowTheme.of(context).primary,
+                          textStyle:
+                              FlutterFlowTheme.of(context).titleSmall.override(
+                                    fontFamily: 'DM Sans',
+                                    color: Colors.white,
+                                    letterSpacing: 0.0,
+                                  ),
+                          elevation: 0.0,
+                          borderRadius: BorderRadius.circular(0.0),
+                        ),
                       ),
                     ),
                   ),

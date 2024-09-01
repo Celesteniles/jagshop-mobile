@@ -95,7 +95,7 @@ class _AdressePageWidgetState extends State<AdressePageWidget> {
                       Flexible(
                         child: Text(
                           FFLocalizations.of(context).getText(
-                            'ln6aadam' /* Enregistrez votre mode de paie... */,
+                            'ln6aadam' /* Enregistrez vos adresses pour ... */,
                           ),
                           textAlign: TextAlign.start,
                           style:
@@ -185,7 +185,7 @@ class _AdressePageWidgetState extends State<AdressePageWidget> {
                       Flexible(
                         child: Text(
                           FFLocalizations.of(context).getText(
-                            'zsvhq0nm' /* Ajouter un nouveau de paiement */,
+                            'zsvhq0nm' /* Ajouter un nouvelle adresse */,
                           ),
                           style: FlutterFlowTheme.of(context)
                               .bodyMedium

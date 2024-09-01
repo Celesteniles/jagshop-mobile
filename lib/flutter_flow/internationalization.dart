@@ -754,7 +754,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'ckgwo2tg': {
-      'fr': 'Ajouter un nouveau de paiement',
+      'fr': 'Ajouter un nouveau mode de paiement',
       'en': '',
     },
     'rq5rgvpn': {
@@ -929,12 +929,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   // AdressePage
   {
     'ln6aadam': {
-      'fr':
-          'Enregistrez votre mode de paiement pour faciliter vos transactions.',
+      'fr': 'Enregistrez vos adresses pour faciliter vos transactions.',
       'en': '',
     },
     'zsvhq0nm': {
-      'fr': 'Ajouter un nouveau de paiement',
+      'fr': 'Ajouter un nouvelle adresse',
       'en': '',
     },
     'h3v72cwx': {
@@ -1251,6 +1250,26 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'pc6xee6f': {
       'fr': 'Ajouter un mode de paiament',
+      'en': '',
+    },
+  },
+  // ValidCartComponent
+  {
+    'ivpezvsk': {
+      'fr': 'Etes-vous sûr de vouloir réinitialiser ?',
+      'en': '',
+    },
+    'y5qxyyo2': {
+      'fr':
+          'Vous avez des articles d\'un autre magazin dans votre panier. Si vous continuez, tous vos articles précédents seront retirés du panier.',
+      'en': '',
+    },
+    'rwbttcfi': {
+      'fr': 'Non',
+      'en': '',
+    },
+    '8ws44zk3': {
+      'fr': 'Oui',
       'en': '',
     },
   },

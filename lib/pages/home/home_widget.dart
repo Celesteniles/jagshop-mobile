@@ -53,6 +53,21 @@ class _HomeWidgetState extends State<HomeWidget> {
         FFAppState().deleteAccessToken();
         FFAppState().accessToken = '';
 
+        FFAppState().deleteCarts();
+        FFAppState().carts = [];
+
+        FFAppState().deleteFavorites();
+        FFAppState().favorites = [];
+
+        FFAppState().deleteCart();
+        FFAppState().cart = 0;
+
+        FFAppState().deleteAdresse();
+        FFAppState().adresse = null;
+
+        FFAppState().deleteMode();
+        FFAppState().mode = null;
+
         FFAppState().update(() {});
         await actions.customToast(
           'Session expirée ou invalide.',
@@ -63,10 +78,30 @@ class _HomeWidgetState extends State<HomeWidget> {
 
         _navigate = () => context.goNamedAuth('Onboarding', context.mounted);
       } else {
-        FFAppState().userConnecte = APIJagShopGroup.checkUserCall.user(
-          (_model.apiResultrff?.jsonBody ?? ''),
-        );
-        setState(() {});
+        if (APIJagShopGroup.checkUserCall.user(
+              (_model.apiResultrff?.jsonBody ?? ''),
+            ) !=
+            null) {
+          FFAppState().userConnecte = APIJagShopGroup.checkUserCall.user(
+            (_model.apiResultrff?.jsonBody ?? ''),
+          );
+          FFAppState().carts = APIJagShopGroup.checkUserCall
+              .carts(
+                (_model.apiResultrff?.jsonBody ?? ''),
+              )!
+              .toList()
+              .cast<dynamic>();
+          FFAppState().favorites = APIJagShopGroup.checkUserCall
+              .favorites(
+                (_model.apiResultrff?.jsonBody ?? ''),
+              )!
+              .toList()
+              .cast<dynamic>();
+          FFAppState().cart = APIJagShopGroup.checkUserCall.countCart(
+            (_model.apiResultrff?.jsonBody ?? ''),
+          )!;
+          FFAppState().update(() {});
+        }
       }
 
       _navigate();

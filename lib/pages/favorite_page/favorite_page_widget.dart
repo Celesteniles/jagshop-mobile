@@ -1,5 +1,6 @@
 import '/backend/api_requests/api_calls.dart';
 import '/components/skeleton_list_component_widget.dart';
+import '/components/valid_cart_component_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -125,260 +126,546 @@ class _FavoritePageWidgetState extends State<FavoritePageWidget> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           Expanded(
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                  child: Image.network(
-                                                    getJsonField(
+                                            child: InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                context.pushNamed(
+                                                  'DetailsPage',
+                                                  queryParameters: {
+                                                    'product': serializeParam(
                                                       favoriteItem,
-                                                      r'''$.image''',
-                                                    ).toString(),
-                                                    width: 100.0,
-                                                    height: 100.0,
-                                                    fit: BoxFit.cover,
-                                                    errorBuilder: (context,
-                                                            error,
-                                                            stackTrace) =>
-                                                        Image.asset(
-                                                      'assets/images/error_image.png',
+                                                      ParamType.JSON,
+                                                    ),
+                                                  }.withoutNulls,
+                                                );
+                                              },
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                    child: Image.network(
+                                                      getJsonField(
+                                                        favoriteItem,
+                                                        r'''$.image''',
+                                                      ).toString(),
                                                       width: 100.0,
                                                       height: 100.0,
                                                       fit: BoxFit.cover,
+                                                      errorBuilder: (context,
+                                                              error,
+                                                              stackTrace) =>
+                                                          Image.asset(
+                                                        'assets/images/error_image.png',
+                                                        width: 100.0,
+                                                        height: 100.0,
+                                                        fit: BoxFit.cover,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                Expanded(
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Flexible(
-                                                            child: Text(
-                                                              getJsonField(
-                                                                favoriteItem,
-                                                                r'''$.name''',
-                                                              ).toString(),
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'DM Sans',
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: [
+                                                            Flexible(
+                                                              child: Text(
+                                                                getJsonField(
+                                                                  favoriteItem,
+                                                                  r'''$.name''',
+                                                                ).toString(),
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'DM Sans',
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Text(
-                                                        formatNumber(
-                                                          functions.toDouble(
-                                                              getJsonField(
-                                                            favoriteItem,
-                                                            r'''$.sale_price''',
-                                                          ).toString()),
-                                                          formatType: FormatType
-                                                              .decimal,
-                                                          decimalType:
-                                                              DecimalType
-                                                                  .automatic,
-                                                          currency: 'XAF ',
+                                                          ],
                                                         ),
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .titleSmall
-                                                            .override(
-                                                              fontFamily:
-                                                                  'DM Sans',
-                                                              fontSize: 18.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                            ),
-                                                      ),
-                                                      Text(
-                                                        getJsonField(
-                                                          favoriteItem,
-                                                          r'''$.store.name''',
-                                                        ).toString(),
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'DM Sans',
-                                                                  letterSpacing:
-                                                                      0.0,
+                                                        Text(
+                                                          formatNumber(
+                                                            functions.toDouble(
+                                                                getJsonField(
+                                                              favoriteItem,
+                                                              r'''$.sale_price''',
+                                                            ).toString()),
+                                                            formatType:
+                                                                FormatType
+                                                                    .decimal,
+                                                            decimalType:
+                                                                DecimalType
+                                                                    .automatic,
+                                                            currency: 'XAF ',
+                                                          ),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .titleSmall
+                                                              .override(
+                                                                fontFamily:
+                                                                    'DM Sans',
+                                                                fontSize: 18.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
+                                                        ),
+                                                        Text(
+                                                          getJsonField(
+                                                            favoriteItem,
+                                                            r'''$.store.name''',
+                                                          ).toString(),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'DM Sans',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
+                                                        ),
+                                                        Builder(
+                                                          builder: (context) {
+                                                            if (functions.inFavoritesList(
+                                                                    FFAppState()
+                                                                        .favorites
+                                                                        .toList(),
+                                                                    favoriteItem) ==
+                                                                false) {
+                                                              return FlutterFlowIconButton(
+                                                                borderColor: Colors
+                                                                    .transparent,
+                                                                borderRadius:
+                                                                    24.0,
+                                                                buttonSize:
+                                                                    35.0,
+                                                                icon: Icon(
+                                                                  Icons
+                                                                      .favorite_border,
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryBackground,
+                                                                  size: 20.0,
                                                                 ),
-                                                      ),
-                                                    ].divide(
-                                                        SizedBox(height: 5.0)),
+                                                                showLoadingIndicator:
+                                                                    true,
+                                                                onPressed:
+                                                                    () async {
+                                                                  var _shouldSetState =
+                                                                      false;
+                                                                  _model.apiResultesy =
+                                                                      await APIJagShopGroup
+                                                                          .addToFavoritesCall
+                                                                          .call(
+                                                                    productId:
+                                                                        getJsonField(
+                                                                      favoriteItem,
+                                                                      r'''$.id''',
+                                                                    ),
+                                                                    accessToken:
+                                                                        FFAppState()
+                                                                            .accessToken,
+                                                                  );
+
+                                                                  _shouldSetState =
+                                                                      true;
+                                                                  if ((_model
+                                                                          .apiResultesy
+                                                                          ?.succeeded ??
+                                                                      true)) {
+                                                                    ScaffoldMessenger.of(
+                                                                            context)
+                                                                        .clearSnackBars();
+                                                                    ScaffoldMessenger.of(
+                                                                            context)
+                                                                        .showSnackBar(
+                                                                      SnackBar(
+                                                                        content:
+                                                                            Text(
+                                                                          APIJagShopGroup
+                                                                              .addToFavoritesCall
+                                                                              .message(
+                                                                            (_model.apiResultesy?.jsonBody ??
+                                                                                ''),
+                                                                          )!,
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color:
+                                                                                FlutterFlowTheme.of(context).primaryText,
+                                                                          ),
+                                                                        ),
+                                                                        duration:
+                                                                            Duration(milliseconds: 4000),
+                                                                        backgroundColor:
+                                                                            FlutterFlowTheme.of(context).success,
+                                                                      ),
+                                                                    );
+                                                                    FFAppState()
+                                                                        .addToFavorites(
+                                                                            favoriteItem);
+                                                                    FFAppState()
+                                                                        .update(
+                                                                            () {});
+                                                                    if (_shouldSetState)
+                                                                      setState(
+                                                                          () {});
+                                                                    return;
+                                                                  } else {
+                                                                    ScaffoldMessenger.of(
+                                                                            context)
+                                                                        .clearSnackBars();
+                                                                    ScaffoldMessenger.of(
+                                                                            context)
+                                                                        .showSnackBar(
+                                                                      SnackBar(
+                                                                        content:
+                                                                            Text(
+                                                                          valueOrDefault<
+                                                                              String>(
+                                                                            APIJagShopGroup.addToFavoritesCall.message(
+                                                                              (_model.apiResultesy?.jsonBody ?? ''),
+                                                                            ),
+                                                                            'Quelque chose ne s\'est pas bien passée.',
+                                                                          ),
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color:
+                                                                                FlutterFlowTheme.of(context).primaryText,
+                                                                          ),
+                                                                        ),
+                                                                        duration:
+                                                                            Duration(milliseconds: 4000),
+                                                                        backgroundColor:
+                                                                            FlutterFlowTheme.of(context).error,
+                                                                      ),
+                                                                    );
+                                                                    if (_shouldSetState)
+                                                                      setState(
+                                                                          () {});
+                                                                    return;
+                                                                  }
+
+                                                                  if (_shouldSetState)
+                                                                    setState(
+                                                                        () {});
+                                                                },
+                                                              );
+                                                            } else {
+                                                              return FlutterFlowIconButton(
+                                                                borderColor: Colors
+                                                                    .transparent,
+                                                                borderRadius:
+                                                                    24.0,
+                                                                buttonSize:
+                                                                    35.0,
+                                                                icon: Icon(
+                                                                  Icons
+                                                                      .favorite_rounded,
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .error,
+                                                                  size: 20.0,
+                                                                ),
+                                                                showLoadingIndicator:
+                                                                    true,
+                                                                onPressed:
+                                                                    () async {
+                                                                  var _shouldSetState =
+                                                                      false;
+                                                                  _model.apiResultesC =
+                                                                      await APIJagShopGroup
+                                                                          .removeFromFavoritesCall
+                                                                          .call(
+                                                                    productId:
+                                                                        getJsonField(
+                                                                      favoriteItem,
+                                                                      r'''$.id''',
+                                                                    ),
+                                                                    accessToken:
+                                                                        FFAppState()
+                                                                            .accessToken,
+                                                                  );
+
+                                                                  _shouldSetState =
+                                                                      true;
+                                                                  if ((_model
+                                                                          .apiResultesC
+                                                                          ?.succeeded ??
+                                                                      true)) {
+                                                                    ScaffoldMessenger.of(
+                                                                            context)
+                                                                        .clearSnackBars();
+                                                                    ScaffoldMessenger.of(
+                                                                            context)
+                                                                        .showSnackBar(
+                                                                      SnackBar(
+                                                                        content:
+                                                                            Text(
+                                                                          APIJagShopGroup
+                                                                              .removeFromFavoritesCall
+                                                                              .message(
+                                                                            (_model.apiResultesC?.jsonBody ??
+                                                                                ''),
+                                                                          )!,
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color:
+                                                                                FlutterFlowTheme.of(context).primaryText,
+                                                                          ),
+                                                                        ),
+                                                                        duration:
+                                                                            Duration(milliseconds: 4000),
+                                                                        backgroundColor:
+                                                                            FlutterFlowTheme.of(context).success,
+                                                                      ),
+                                                                    );
+                                                                    FFAppState()
+                                                                        .removeFromFavorites(
+                                                                            favoriteItem);
+                                                                    FFAppState()
+                                                                        .update(
+                                                                            () {});
+                                                                    if (_shouldSetState)
+                                                                      setState(
+                                                                          () {});
+                                                                    return;
+                                                                  } else {
+                                                                    ScaffoldMessenger.of(
+                                                                            context)
+                                                                        .clearSnackBars();
+                                                                    ScaffoldMessenger.of(
+                                                                            context)
+                                                                        .showSnackBar(
+                                                                      SnackBar(
+                                                                        content:
+                                                                            Text(
+                                                                          valueOrDefault<
+                                                                              String>(
+                                                                            APIJagShopGroup.removeFromFavoritesCall.message(
+                                                                              (_model.apiResultesC?.jsonBody ?? ''),
+                                                                            ),
+                                                                            'Quelque chose ne s\'est pas bien passée.',
+                                                                          ),
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color:
+                                                                                FlutterFlowTheme.of(context).primaryText,
+                                                                          ),
+                                                                        ),
+                                                                        duration:
+                                                                            Duration(milliseconds: 4000),
+                                                                        backgroundColor:
+                                                                            FlutterFlowTheme.of(context).error,
+                                                                      ),
+                                                                    );
+                                                                    if (_shouldSetState)
+                                                                      setState(
+                                                                          () {});
+                                                                    return;
+                                                                  }
+
+                                                                  if (_shouldSetState)
+                                                                    setState(
+                                                                        () {});
+                                                                },
+                                                              );
+                                                            }
+                                                          },
+                                                        ),
+                                                      ].divide(SizedBox(
+                                                          height: 3.0)),
+                                                    ),
                                                   ),
-                                                ),
-                                              ].divide(SizedBox(width: 12.0)),
+                                                ].divide(SizedBox(width: 12.0)),
+                                              ),
                                             ),
                                           ),
                                           Column(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
-                                              FlutterFlowIconButton(
-                                                borderColor: Colors.transparent,
-                                                borderRadius: 20.0,
-                                                buttonSize: 40.0,
-                                                icon: Icon(
-                                                  Icons.add_shopping_cart,
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryText,
-                                                  size: 24.0,
-                                                ),
-                                                showLoadingIndicator: true,
-                                                onPressed: () async {
-                                                  var _shouldSetState = false;
-                                                  if (functions.isSameStrore(
-                                                      FFAppState()
-                                                          .carts
-                                                          .toList(),
-                                                      favoriteItem)) {
-                                                    _model.apiResulthpg =
-                                                        await APIJagShopGroup
-                                                            .addItemsToCartCall
-                                                            .call(
-                                                      productId: getJsonField(
-                                                        favoriteItem,
-                                                        r'''$.id''',
-                                                      ),
-                                                      accessToken: FFAppState()
-                                                          .accessToken,
-                                                    );
-
-                                                    _shouldSetState = true;
-                                                    if ((_model.apiResulthpg
-                                                            ?.succeeded ??
-                                                        true)) {
-                                                      FFAppState().addToCarts(
-                                                          favoriteItem);
-                                                      FFAppState().cart =
-                                                          FFAppState().cart + 1;
-                                                      setState(() {});
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .clearSnackBars();
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                        SnackBar(
-                                                          content: Text(
-                                                            APIJagShopGroup
-                                                                .addItemsToCartCall
-                                                                .message(
-                                                              (_model.apiResulthpg
-                                                                      ?.jsonBody ??
-                                                                  ''),
-                                                            )!,
-                                                            style: TextStyle(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primaryText,
-                                                            ),
-                                                          ),
-                                                          duration: Duration(
-                                                              milliseconds:
-                                                                  4000),
-                                                          backgroundColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .success,
+                                              Builder(
+                                                builder: (context) =>
+                                                    FlutterFlowIconButton(
+                                                  borderColor:
+                                                      Colors.transparent,
+                                                  borderRadius: 20.0,
+                                                  buttonSize: 40.0,
+                                                  icon: Icon(
+                                                    Icons.add_shopping_cart,
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primaryText,
+                                                    size: 24.0,
+                                                  ),
+                                                  showLoadingIndicator: true,
+                                                  onPressed: () async {
+                                                    var _shouldSetState = false;
+                                                    if (functions.isSameStrore(
+                                                        FFAppState()
+                                                            .carts
+                                                            .toList(),
+                                                        favoriteItem)) {
+                                                      _model.apiResulthpg =
+                                                          await APIJagShopGroup
+                                                              .addItemsToCartCall
+                                                              .call(
+                                                        productId: getJsonField(
+                                                          favoriteItem,
+                                                          r'''$.id''',
                                                         ),
+                                                        accessToken:
+                                                            FFAppState()
+                                                                .accessToken,
                                                       );
-                                                      if (_shouldSetState)
+
+                                                      _shouldSetState = true;
+                                                      if ((_model.apiResulthpg
+                                                              ?.succeeded ??
+                                                          true)) {
+                                                        FFAppState().addToCarts(
+                                                            favoriteItem);
+                                                        FFAppState().cart =
+                                                            FFAppState().cart +
+                                                                1;
                                                         setState(() {});
-                                                      return;
-                                                    } else {
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .clearSnackBars();
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                        SnackBar(
-                                                          content: Text(
-                                                            valueOrDefault<
-                                                                String>(
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .clearSnackBars();
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
                                                               APIJagShopGroup
                                                                   .addItemsToCartCall
                                                                   .message(
                                                                 (_model.apiResulthpg
                                                                         ?.jsonBody ??
                                                                     ''),
+                                                              )!,
+                                                              style: TextStyle(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
                                                               ),
-                                                              'Quelque chose ne s\'est pas bien passée.',
                                                             ),
-                                                            style: TextStyle(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primaryText,
-                                                            ),
+                                                            duration: Duration(
+                                                                milliseconds:
+                                                                    4000),
+                                                            backgroundColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .success,
                                                           ),
-                                                          duration: Duration(
-                                                              milliseconds:
-                                                                  4000),
-                                                          backgroundColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .error,
-                                                        ),
+                                                        );
+                                                        if (_shouldSetState)
+                                                          setState(() {});
+                                                        return;
+                                                      } else {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .clearSnackBars();
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                              valueOrDefault<
+                                                                  String>(
+                                                                APIJagShopGroup
+                                                                    .addItemsToCartCall
+                                                                    .message(
+                                                                  (_model.apiResulthpg
+                                                                          ?.jsonBody ??
+                                                                      ''),
+                                                                ),
+                                                                'Quelque chose ne s\'est pas bien passée.',
+                                                              ),
+                                                              style: TextStyle(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                              ),
+                                                            ),
+                                                            duration: Duration(
+                                                                milliseconds:
+                                                                    4000),
+                                                            backgroundColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .error,
+                                                          ),
+                                                        );
+                                                        if (_shouldSetState)
+                                                          setState(() {});
+                                                        return;
+                                                      }
+                                                    } else {
+                                                      await showDialog(
+                                                        context: context,
+                                                        builder:
+                                                            (dialogContext) {
+                                                          return Dialog(
+                                                            elevation: 0,
+                                                            insetPadding:
+                                                                EdgeInsets.zero,
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            alignment: AlignmentDirectional(
+                                                                    0.0, 0.0)
+                                                                .resolve(
+                                                                    Directionality.of(
+                                                                        context)),
+                                                            child:
+                                                                GestureDetector(
+                                                              onTap: () =>
+                                                                  FocusScope.of(
+                                                                          dialogContext)
+                                                                      .unfocus(),
+                                                              child: Container(
+                                                                height: 450.0,
+                                                                width: double
+                                                                    .infinity,
+                                                                child:
+                                                                    ValidCartComponentWidget(
+                                                                  productJson:
+                                                                      favoriteItem,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
                                                       );
+
                                                       if (_shouldSetState)
                                                         setState(() {});
                                                       return;
                                                     }
-                                                  } else {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .clearSnackBars();
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(
-                                                          'Pas la même boutique',
-                                                          style: TextStyle(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primaryText,
-                                                          ),
-                                                        ),
-                                                        duration: Duration(
-                                                            milliseconds: 4000),
-                                                        backgroundColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .error,
-                                                      ),
-                                                    );
+
                                                     if (_shouldSetState)
                                                       setState(() {});
-                                                    return;
-                                                  }
-
-                                                  if (_shouldSetState)
-                                                    setState(() {});
-                                                },
+                                                  },
+                                                ),
                                               ),
                                             ],
                                           ),

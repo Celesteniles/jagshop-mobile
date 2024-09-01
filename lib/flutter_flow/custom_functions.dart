@@ -76,6 +76,20 @@ String getInitial(String username) {
   return initiales.toUpperCase();
 }
 
+bool inFavoritesList(
+  List<dynamic> productList,
+  dynamic newProduct,
+) {
+  if (productList.isEmpty) {
+    // Si la liste est vide, il n'y a aucun produit pour comparaison,
+    // donc on peut considérer qu'ils sont du même magasin.
+    return false;
+  }
+
+  // Compare l'ID du magasin du nouveau produit avec celui du premier produit
+  return productList.any((product) => product['id'] == newProduct['id']);
+}
+
 List<LatLng> getLatLngList(
   List<String> lngList,
   List<String> latList,

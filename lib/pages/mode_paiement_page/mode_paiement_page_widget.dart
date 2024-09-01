@@ -177,7 +177,7 @@ class _ModePaiementPageWidgetState extends State<ModePaiementPageWidget> {
                       Flexible(
                         child: Text(
                           FFLocalizations.of(context).getText(
-                            'ckgwo2tg' /* Ajouter un nouveau de paiement */,
+                            'ckgwo2tg' /* Ajouter un nouveau mode de pai... */,
                           ),
                           style: FlutterFlowTheme.of(context)
                               .bodyMedium

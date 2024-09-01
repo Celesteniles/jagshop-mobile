@@ -52,7 +52,7 @@ class _PaymentMethodWidgetState extends State<PaymentMethodWidget> {
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          color: FlutterFlowTheme.of(context).secondaryBackground,
+          color: FlutterFlowTheme.of(context).backgroundColor,
           boxShadow: [
             BoxShadow(
               blurRadius: 6.0,
@@ -252,6 +252,8 @@ class _PaymentMethodWidgetState extends State<PaymentMethodWidget> {
                                 .labelMedium
                                 .override(
                                   fontFamily: 'DM Sans',
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
                                   letterSpacing: 0.0,
                                 ),
                             hintText: FFLocalizations.of(context).getText(
@@ -267,7 +269,8 @@ class _PaymentMethodWidgetState extends State<PaymentMethodWidget> {
                                 ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).alternate,
+                                color: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
                                 width: 2.0,
                               ),
                               borderRadius: BorderRadius.circular(10.0),

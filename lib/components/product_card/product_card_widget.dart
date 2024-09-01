@@ -88,6 +88,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                       width: MediaQuery.sizeOf(context).width * 0.48,
                       height: 135.0,
                       fit: BoxFit.cover,
+                      cacheHeight: 120,
                     ),
                   ),
                 ),
@@ -104,6 +105,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                       maxChars: 22,
                       replacement: '…',
                     ),
+                    maxLines: 1,
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily: 'DM Sans',
                           color: FlutterFlowTheme.of(context).primaryText,
@@ -136,80 +138,177 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                     ),
                   ),
                 ),
-              ].divide(SizedBox(height: 5.0)),
+              ].divide(SizedBox(height: 2.0)),
             ),
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                FlutterFlowIconButton(
-                  borderColor: Colors.transparent,
-                  borderRadius: 20.0,
-                  buttonSize: 46.0,
-                  icon: Icon(
-                    Icons.favorite_border,
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                    size: 24.0,
-                  ),
-                  showLoadingIndicator: true,
-                  onPressed: () async {
-                    var _shouldSetState = false;
-                    _model.apiResultesy =
-                        await APIJagShopGroup.addToFavoritesCall.call(
-                      productId: getJsonField(
-                        widget!.product,
-                        r'''$.id''',
-                      ),
-                      accessToken: FFAppState().accessToken,
-                    );
-
-                    _shouldSetState = true;
-                    if ((_model.apiResultesy?.succeeded ?? true)) {
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            APIJagShopGroup.addToFavoritesCall.message(
-                              (_model.apiResultesy?.jsonBody ?? ''),
-                            )!,
-                            style: TextStyle(
-                              color: FlutterFlowTheme.of(context).primaryText,
-                            ),
+            Align(
+              alignment: AlignmentDirectional(1.0, -1.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Builder(
+                    builder: (context) {
+                      if (functions.inFavoritesList(
+                              FFAppState().favorites.toList(),
+                              widget!.product!) ==
+                          false) {
+                        return FlutterFlowIconButton(
+                          borderColor: Colors.transparent,
+                          borderRadius: 24.0,
+                          buttonSize: 40.0,
+                          icon: Icon(
+                            Icons.favorite_border,
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            size: 24.0,
                           ),
-                          duration: Duration(milliseconds: 4000),
-                          backgroundColor: FlutterFlowTheme.of(context).success,
-                        ),
-                      );
-                      if (_shouldSetState) setState(() {});
-                      return;
-                    } else {
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            valueOrDefault<String>(
-                              APIJagShopGroup.addToFavoritesCall.message(
-                                (_model.apiResultesy?.jsonBody ?? ''),
+                          showLoadingIndicator: true,
+                          onPressed: () async {
+                            var _shouldSetState = false;
+                            _model.apiResultesy =
+                                await APIJagShopGroup.addToFavoritesCall.call(
+                              productId: getJsonField(
+                                widget!.product,
+                                r'''$.id''',
                               ),
-                              'Quelque chose ne s\'est pas bien passée.',
-                            ),
-                            style: TextStyle(
-                              color: FlutterFlowTheme.of(context).primaryText,
-                            ),
-                          ),
-                          duration: Duration(milliseconds: 4000),
-                          backgroundColor: FlutterFlowTheme.of(context).error,
-                        ),
-                      );
-                      if (_shouldSetState) setState(() {});
-                      return;
-                    }
+                              accessToken: FFAppState().accessToken,
+                            );
 
-                    if (_shouldSetState) setState(() {});
-                  },
-                ),
-              ],
+                            _shouldSetState = true;
+                            if ((_model.apiResultesy?.succeeded ?? true)) {
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    APIJagShopGroup.addToFavoritesCall.message(
+                                      (_model.apiResultesy?.jsonBody ?? ''),
+                                    )!,
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).success,
+                                ),
+                              );
+                              FFAppState().addToFavorites(widget!.product!);
+                              FFAppState().update(() {});
+                              if (_shouldSetState) setState(() {});
+                              return;
+                            } else {
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    valueOrDefault<String>(
+                                      APIJagShopGroup.addToFavoritesCall
+                                          .message(
+                                        (_model.apiResultesy?.jsonBody ?? ''),
+                                      ),
+                                      'Quelque chose ne s\'est pas bien passée.',
+                                    ),
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).error,
+                                ),
+                              );
+                              if (_shouldSetState) setState(() {});
+                              return;
+                            }
+
+                            if (_shouldSetState) setState(() {});
+                          },
+                        );
+                      } else {
+                        return FlutterFlowIconButton(
+                          borderColor: Colors.transparent,
+                          borderRadius: 24.0,
+                          buttonSize: 40.0,
+                          icon: Icon(
+                            Icons.favorite_rounded,
+                            color: FlutterFlowTheme.of(context).error,
+                            size: 24.0,
+                          ),
+                          showLoadingIndicator: true,
+                          onPressed: () async {
+                            var _shouldSetState = false;
+                            _model.apiResultesC = await APIJagShopGroup
+                                .removeFromFavoritesCall
+                                .call(
+                              productId: getJsonField(
+                                widget!.product,
+                                r'''$.id''',
+                              ),
+                              accessToken: FFAppState().accessToken,
+                            );
+
+                            _shouldSetState = true;
+                            if ((_model.apiResultesC?.succeeded ?? true)) {
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    APIJagShopGroup.removeFromFavoritesCall
+                                        .message(
+                                      (_model.apiResultesC?.jsonBody ?? ''),
+                                    )!,
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).success,
+                                ),
+                              );
+                              FFAppState()
+                                  .removeFromFavorites(widget!.product!);
+                              FFAppState().update(() {});
+                              if (_shouldSetState) setState(() {});
+                              return;
+                            } else {
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    valueOrDefault<String>(
+                                      APIJagShopGroup.removeFromFavoritesCall
+                                          .message(
+                                        (_model.apiResultesC?.jsonBody ?? ''),
+                                      ),
+                                      'Quelque chose ne s\'est pas bien passée.',
+                                    ),
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).error,
+                                ),
+                              );
+                              if (_shouldSetState) setState(() {});
+                              return;
+                            }
+
+                            if (_shouldSetState) setState(() {});
+                          },
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),

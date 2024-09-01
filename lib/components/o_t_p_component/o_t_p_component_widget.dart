@@ -53,7 +53,7 @@ class _OTPComponentWidgetState extends State<OTPComponentWidget> {
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).secondaryBackground,
+        color: FlutterFlowTheme.of(context).backgroundColor,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(0.0),
           bottomRight: Radius.circular(0.0),
@@ -131,6 +131,10 @@ class _OTPComponentWidgetState extends State<OTPComponentWidget> {
                   activeColor: Colors.white,
                   inactiveColor: FlutterFlowTheme.of(context).alternate,
                   selectedColor: Colors.black,
+                  activeFillColor:
+                      FlutterFlowTheme.of(context).primaryBackground,
+                  inactiveFillColor: FlutterFlowTheme.of(context).accent1,
+                  selectedFillColor: FlutterFlowTheme.of(context).alternate,
                 ),
                 controller: _model.pinCodeController,
                 onChanged: (_) {},
